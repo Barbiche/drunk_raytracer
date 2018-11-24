@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Numerics;
 using RTIOWCS.Material;
@@ -7,27 +8,29 @@ namespace RTIOWCS
 {
     internal class Scene : IScene
     {
-        private long _currentId;
-
+        private readonly ICamera _camera;
         private readonly Dictionary<long, IEntity> _entities;
         private readonly string _fileName = "Output.ppm";
-        private readonly Vector3 _horizontal = new Vector3(4.0f, 0.0f, 0.0f);
-
-        private readonly Vector3 _lowerLeftCorner = new Vector3(-2.0f, -1.0f, -1.0f);
-
+        private readonly int _ns = 100;
         private readonly int _nx = 200;
         private readonly int _ny = 100;
-        private readonly Vector3 _origin = new Vector3(0.0f, 0.0f, 0.0f);
-        private readonly Vector3 _vertical = new Vector3(0.0f, 2.0f, 0.0f);
+        private readonly Random _randomGenerator;
+        private long _currentId;
 
         public Scene()
         {
             Background = new Vector3(0.5f, 0.7f, 1.0f);
             _entities = new Dictionary<long, IEntity>();
+            _camera = new Camera();
             _currentId = 0;
+            _randomGenerator = new Random();
+            tMin = 0.001f;
+            tMax = float.MaxValue;
         }
 
         public Vector3 Background { get; set; }
+        public float tMin { get; set; }
+        public float tMax { get; set; }
 
         public long AddEntity(IShape shape, IMaterial material)
         {
@@ -49,18 +52,19 @@ namespace RTIOWCS
                 for (var j = _ny - 1; j >= 0; j--)
                 for (var i = 0; i < _nx; i++)
                 {
-                    var u = i / (float) _nx;
-                    var v = j / (float) _ny;
-
-                    var ray = new Ray(_origin, _lowerLeftCorner + u * _horizontal + v * _vertical);
-
                     var col = Vector3.Zero;
-                    foreach (var entity1 in _entities.Values)
+                    for (var s = 0; s < _ns; s++)
                     {
-                        var entity = (Entity) entity1;
-                        col += entity.GetColor(ray);
+                        var u = (float) (i + _randomGenerator.NextDouble()) / _nx;
+                        var v = (float) (j + _randomGenerator.NextDouble()) / _ny;
+
+                        var ray = _camera.GetRay(u, v);
+                        var traceRay = new TraceRay(ray) { Color = ComputeBackground(ray), T = tMax };
+                        col += HitScene(traceRay);
                     }
 
+                    col /= _ns;
+                    col = new Vector3((float) Math.Sqrt(col.X), (float) Math.Sqrt(col.Y), (float) Math.Sqrt(col.Z));
                     var ir = (int) (255.99 * col.X);
                     var ig = (int) (255.99 * col.Y);
                     var ib = (int) (255.99 * col.Z);
@@ -68,6 +72,19 @@ namespace RTIOWCS
                     file.WriteLine($"{ir} {ig} {ib}");
                 }
             }
+        }
+
+        public Vector3 HitScene(TraceRay ray)
+        {
+            foreach (var entity in _entities.Values) entity.Hit(ray);
+            return ray.Color;
+        }
+
+        private Vector3 ComputeBackground(Ray ray)
+        {
+            var unitDirection = Vector3.Normalize(ray.Direction);
+            var t = 0.5f * (unitDirection.Y + 1.0f);
+            return (1.0f - t) * new Vector3(1.0f, 1.0f, 1.0f) + t * Background;
         }
     }
 }

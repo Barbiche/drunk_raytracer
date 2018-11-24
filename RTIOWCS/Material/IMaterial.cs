@@ -4,6 +4,6 @@ namespace RTIOWCS.Material
 {
     internal interface IMaterial
     {
-        Vector3 GetColor(Ray ray);
+        void ComputeColor(TraceRay ray);
     }
 }

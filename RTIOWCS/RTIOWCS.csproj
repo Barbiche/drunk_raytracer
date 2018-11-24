@@ -36,16 +36,20 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Camera.cs" />
     <Compile Include="Entity.cs" />
+    <Compile Include="ICamera.cs" />
     <Compile Include="IEntity.cs" />
     <Compile Include="IScene.cs" />
     <Compile Include="IShape.cs" />
+    <Compile Include="Material\DiffuseMaterial.cs" />
     <Compile Include="Material\IMaterial.cs" />
     <Compile Include="Material\PlainColorMaterial.cs" />
     <Compile Include="Ray.cs" />
     <Compile Include="Scene.cs" />
     <Compile Include="Sphere.cs" />
     <Compile Include="Trace.cs" />
+    <Compile Include="TraceRay.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Numerics" />

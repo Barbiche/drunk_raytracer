@@ -1,6 +1,4 @@
-﻿using System.Numerics;
-
-namespace RTIOWCS.Material
+﻿namespace RTIOWCS.Material
 {
     internal class Entity : IEntity
     {
@@ -23,18 +21,26 @@ namespace RTIOWCS.Material
             _material = material;
         }
 
-        public Vector3 GetColor(Ray ray)
+        public bool Hit(TraceRay ray)
         {
-            var t = _shape.IsHit(ray);
-            if (t > 0.0f)
+            var hitT = _shape.IsHit(ray.Ray);
+
+            if (hitT < _scene.tMax && hitT > _scene.tMin)
             {
-                var normal = Vector3.Normalize(ray.PointAt(t) + Vector3.UnitZ);
-                return 0.5f * new Vector3(normal.X + 1, normal.Y + 1, normal.Z + 1);
+                //Hit the shape: hold the values;
+                ray.T = hitT;
+                ray.HitPoint = ray.Ray.PointAt(hitT);
+                ray.Normal = _shape.GetNormalAtPoint(ray.HitPoint);
+
+                // Bounce and create another
+                var target = ray.HitPoint + ray.Normal + _shape.BounceOnShape();
+                ray.Ray = new Ray(ray.HitPoint, target - ray.HitPoint);
+                _material.ComputeColor(ray);
+                _scene.HitScene(ray);
+                return true;
             }
 
-            var unitDirection = Vector3.Normalize(ray.Direction);
-            t = 0.5f * (unitDirection.Y + 1.0f);
-            return (1.0f - t) * new Vector3(1.0f, 1.0f, 1.0f) + t * _scene.Background;
+            return false;
         }
     }
 }

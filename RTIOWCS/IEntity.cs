@@ -4,6 +4,6 @@ namespace RTIOWCS
 {
     internal interface IEntity
     {
-        Vector3 GetColor(Ray ray);
+        bool Hit(TraceRay ray);
     }
 }

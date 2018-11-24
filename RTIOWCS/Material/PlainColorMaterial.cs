@@ -16,9 +16,9 @@ namespace RTIOWCS.Material
 
         private Vector3 Color { get; }
 
-        Vector3 IMaterial.GetColor(Ray ray)
+        void IMaterial.ComputeColor(TraceRay ray)
         {
-            return Color;
+            ray.Color *= Color;
         }
     }
 }

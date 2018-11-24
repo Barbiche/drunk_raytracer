@@ -5,6 +5,8 @@ namespace RTIOWCS
 {
     internal class Sphere : IShape
     {
+        private readonly Random RandomGenerator = new Random();
+
         public Sphere()
         {
             Center = Vector3.Zero;
@@ -30,6 +32,23 @@ namespace RTIOWCS
             if (discriminant < 0)
                 return -1.0f;
             return (-b - (float) Math.Sqrt(discriminant)) / (2.0f * a);
+        }
+
+        public Vector3 GetNormalAtPoint(Vector3 point)
+        {
+            return (point - Center) / Radius;
+        }
+
+        public Vector3 BounceOnShape()
+        {
+            Vector3 p;
+            do
+            {
+                p = 2.0f * new Vector3((float) RandomGenerator.NextDouble(), (float) RandomGenerator.NextDouble(),
+                        (float) RandomGenerator.NextDouble()) - Vector3.One;
+            } while (p.LengthSquared() >= 1.0f);
+
+            return p;
         }
     }
 }
