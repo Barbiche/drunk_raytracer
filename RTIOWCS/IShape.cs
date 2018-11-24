@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RTIOWCS
+﻿namespace RTIOWCS
 {
-    interface IShape
+    internal interface IShape
     {
-        bool IsHit(Ray ray);
+        float IsHit(Ray ray);
     }
 }

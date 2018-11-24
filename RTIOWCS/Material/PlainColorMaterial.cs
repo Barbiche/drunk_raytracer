@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Numerics;
 
 namespace RTIOWCS.Material
 {
-    class PlainColorMaterial : IMaterial
+    internal class PlainColorMaterial : IMaterial
     {
-        Vector3 Color { get; set; }
-
         public PlainColorMaterial()
         {
             Color = new Vector3(1.0f, 0.0f, 0.0f);
@@ -20,6 +13,8 @@ namespace RTIOWCS.Material
         {
             Color = color;
         }
+
+        private Vector3 Color { get; }
 
         Vector3 IMaterial.GetColor(Ray ray)
         {

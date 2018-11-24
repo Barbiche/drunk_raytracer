@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Numerics;
 
 namespace RTIOWCS
 {
-    interface IScene
+    internal interface IScene
     {
         Vector3 Background { get; set; }
     }

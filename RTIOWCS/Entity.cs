@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Numerics;
 
 namespace RTIOWCS.Material
 {
-    class Entity : IEntity
+    internal class Entity : IEntity
     {
-        IShape _shape;
-        IMaterial _material;
-        IScene _scene;
+        private readonly IMaterial _material;
+        private readonly IScene _scene;
+        private readonly IShape _shape;
 
 
         public Entity(IScene scene)
@@ -30,13 +25,10 @@ namespace RTIOWCS.Material
 
         public Vector3 GetColor(Ray ray)
         {
-            if (_shape.IsHit(ray))
-            {
-                return _material.GetColor(ray);
-            }
+            if (_shape.IsHit(ray)) return _material.GetColor(ray);
 
-            Vector3 unitDirection = Vector3.Normalize(ray.Direction);
-            float t = 0.5f * (unitDirection.Y + 1.0f);
+            var unitDirection = Vector3.Normalize(ray.Direction);
+            var t = 0.5f * (unitDirection.Y + 1.0f);
             return (1.0f - t) * new Vector3(1.0f, 1.0f, 1.0f) + t * _scene.Background;
         }
     }
