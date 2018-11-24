@@ -35,5 +35,21 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Entity.cs" />
+    <Compile Include="IEntity.cs" />
+    <Compile Include="IScene.cs" />
+    <Compile Include="IShape.cs" />
+    <Compile Include="Material\IMaterial.cs" />
+    <Compile Include="Material\PlainColorMaterial.cs" />
+    <Compile Include="Ray.cs" />
+    <Compile Include="Scene.cs" />
+    <Compile Include="Sphere.cs" />
+    <Compile Include="Trace.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
