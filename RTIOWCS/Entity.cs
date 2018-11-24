@@ -25,10 +25,15 @@ namespace RTIOWCS.Material
 
         public Vector3 GetColor(Ray ray)
         {
-            if (_shape.IsHit(ray)) return _material.GetColor(ray);
+            var t = _shape.IsHit(ray);
+            if (t > 0.0f)
+            {
+                var normal = Vector3.Normalize(ray.PointAt(t) + Vector3.UnitZ);
+                return 0.5f * new Vector3(normal.X + 1, normal.Y + 1, normal.Z + 1);
+            }
 
             var unitDirection = Vector3.Normalize(ray.Direction);
-            var t = 0.5f * (unitDirection.Y + 1.0f);
+            t = 0.5f * (unitDirection.Y + 1.0f);
             return (1.0f - t) * new Vector3(1.0f, 1.0f, 1.0f) + t * _scene.Background;
         }
     }
