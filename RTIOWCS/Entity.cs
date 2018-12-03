@@ -1,4 +1,6 @@
-﻿namespace RTIOWCS.Material
+﻿using System.Numerics;
+
+namespace RTIOWCS.Material
 {
     internal class Entity : IEntity
     {
@@ -11,7 +13,7 @@
         {
             _scene = scene;
             _shape = new Sphere();
-            _material = new PlainColorMaterial();
+            _material = new DiffuseMaterial();
         }
 
         public Entity(IScene scene, IShape shape, IMaterial material)
@@ -21,26 +23,16 @@
             _material = material;
         }
 
-        public bool Hit(TraceRay ray)
+        float IEntity.Hit(ref TraceRay traceRay)
         {
-            var hitT = _shape.IsHit(ray.Ray);
-
-            if (hitT < _scene.tMax && hitT > _scene.tMin)
+            if (_shape.IsHit(traceRay))
             {
-                //Hit the shape: hold the values;
-                ray.T = hitT;
-                ray.HitPoint = ray.Ray.PointAt(hitT);
-                ray.Normal = _shape.GetNormalAtPoint(ray.HitPoint);
-
-                // Bounce and create another
-                var target = ray.HitPoint + ray.Normal + _shape.BounceOnShape();
-                ray.Ray = new Ray(ray.HitPoint, target - ray.HitPoint);
-                _material.ComputeColor(ray);
-                _scene.HitScene(ray);
-                return true;
+                var contactT = traceRay.T;
+                _material.Scatter(traceRay);
+                traceRay = _scene.HitScene(traceRay);
+                return contactT;
             }
-
-            return false;
+            return traceRay.tMax;
         }
     }
 }

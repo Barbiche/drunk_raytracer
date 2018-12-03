@@ -4,6 +4,6 @@ namespace RTIOWCS
 {
     internal interface IEntity
     {
-        bool Hit(TraceRay ray);
+        float Hit(ref TraceRay traceRay);
     }
 }

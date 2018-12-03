@@ -24,13 +24,13 @@ namespace RTIOWCS
             _camera = new Camera();
             _currentId = 0;
             _randomGenerator = new Random();
-            tMin = 0.001f;
-            tMax = float.MaxValue;
+            TMin = 0.001f;
+            TMax = float.MaxValue;
         }
 
         public Vector3 Background { get; set; }
-        public float tMin { get; set; }
-        public float tMax { get; set; }
+        public float TMin { get; set; }
+        public float TMax { get; set; }
 
         public long AddEntity(IShape shape, IMaterial material)
         {
@@ -50,34 +50,53 @@ namespace RTIOWCS
             {
                 file.WriteLine($"P3\n{_nx} {_ny}\n255");
                 for (var j = _ny - 1; j >= 0; j--)
-                for (var i = 0; i < _nx; i++)
                 {
-                    var col = Vector3.Zero;
-                    for (var s = 0; s < _ns; s++)
+                    for (var i = 0; i < _nx; i++)
                     {
-                        var u = (float) (i + _randomGenerator.NextDouble()) / _nx;
-                        var v = (float) (j + _randomGenerator.NextDouble()) / _ny;
+                        var col = Vector3.Zero;
+                        for (var s = 0; s < _ns; s++)
+                        {
+                            var u = (float)(i + _randomGenerator.NextDouble()) / _nx;
+                            var v = (float)(j + _randomGenerator.NextDouble()) / _ny;
 
-                        var ray = _camera.GetRay(u, v);
-                        var traceRay = new TraceRay(ray) { Color = ComputeBackground(ray), T = tMax };
-                        col += HitScene(traceRay);
+                            var ray = _camera.GetRay(u, v);
+                            TraceRay traceRay = new TraceRay(ray)
+                            {
+                                Color = ComputeBackground(ray),
+                                tMax =  TMax,
+                                tMin = TMin
+                            };
+                            var defTraceRay = HitScene(traceRay);
+                            col += defTraceRay.Color;
+                        }
+
+                        col /= _ns;
+                        col = new Vector3((float)Math.Sqrt(col.X), (float)Math.Sqrt(col.Y), (float)Math.Sqrt(col.Z));
+                        var ir = (int)(255.99 * col.X);
+                        var ig = (int)(255.99 * col.Y);
+                        var ib = (int)(255.99 * col.Z);
+
+                        file.WriteLine($"{ir} {ig} {ib}");
                     }
-
-                    col /= _ns;
-                    col = new Vector3((float) Math.Sqrt(col.X), (float) Math.Sqrt(col.Y), (float) Math.Sqrt(col.Z));
-                    var ir = (int) (255.99 * col.X);
-                    var ig = (int) (255.99 * col.Y);
-                    var ib = (int) (255.99 * col.Z);
-
-                    file.WriteLine($"{ir} {ig} {ib}");
                 }
             }
         }
 
-        public Vector3 HitScene(TraceRay ray)
+        public TraceRay HitScene(TraceRay traceRay)
         {
-            foreach (var entity in _entities.Values) entity.Hit(ray);
-            return ray.Color;
+            var maxT = TMax;
+            var defTraceRay = new TraceRay(traceRay);
+            foreach (var entity in _entities.Values)
+            {
+                var tempRay = new TraceRay(traceRay);
+                var tempT = entity.Hit(ref tempRay);
+                if (tempT < maxT)
+                {
+                    defTraceRay = tempRay;
+                    maxT = tempT;
+                }
+            }
+           return defTraceRay;
         }
 
         private Vector3 ComputeBackground(Ray ray)
