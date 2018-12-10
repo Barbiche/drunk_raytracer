@@ -22,7 +22,7 @@ namespace RTIOWCS.Material
 
         public void Scatter(TraceRay ray)
         {
-            var reflected = Reflect(Vector3.Normalize(ray.Ray.Direction), ray.Normal);
+            var reflected = Utils.Reflect(Vector3.Normalize(ray.Ray.Direction), ray.Normal);
             ray.Ray = new Ray(ray.HitPoint, reflected + Utils.GetRandomInSphere() * Fuzz);
             if (Vector3.Dot(ray.Ray.Direction, ray.Normal) > 0)
             {
@@ -32,11 +32,6 @@ namespace RTIOWCS.Material
             {
                 ray.Color = Vector3.Zero;
             }
-        }
-
-        private Vector3 Reflect(Vector3 v, Vector3 n)
-        {
-            return v - 2 * Vector3.Dot(v, n) * n;
         }
     }
 }

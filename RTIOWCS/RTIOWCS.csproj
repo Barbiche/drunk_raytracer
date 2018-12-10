@@ -42,15 +42,16 @@
     <Compile Include="IEntity.cs" />
     <Compile Include="IScene.cs" />
     <Compile Include="IShape.cs" />
+    <Compile Include="Material\Dielectric.cs" />
     <Compile Include="Material\DiffuseMaterial.cs" />
     <Compile Include="Material\IMaterial.cs" />
+    <Compile Include="Utils.cs" />
     <Compile Include="Material\Metal.cs" />
     <Compile Include="Ray.cs" />
     <Compile Include="Scene.cs" />
     <Compile Include="Sphere.cs" />
     <Compile Include="Trace.cs" />
     <Compile Include="TraceRay.cs" />
-    <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Numerics" />

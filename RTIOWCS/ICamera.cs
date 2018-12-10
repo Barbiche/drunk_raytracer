@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Numerics;
 
 namespace RTIOWCS
 {
-    interface ICamera
+    internal interface ICamera
     {
-        Ray GetRay(float u, float v);
-        Vector3 Origin { get; set; }
-        Vector3 LowerLeftCorner { get; set;}
-        Vector3 Horizontal { get; set; }
-        Vector3 Vertical { get; set; }
+        Vector3 LookFrom { get; set; }
+        Vector3 LookAt { get; set; }
+        float VerticalFieldOfView { get; set; }
+        float Aperture { get; set; }
+        float FocusDistance { get; set; }
+        float ResX { get; set; }
+        float ResY { get; set; }
+        Ray GetRay(float s, float t);
     }
 }
