@@ -5,13 +5,13 @@ namespace RTIOWCS
 {
     internal class Camera : ICamera
     {
-        private float _aperture = 2.0f;
+        private float _aperture;
         private float _aspect;
         private float _focusDistance;
         private Vector3 _horizontal;
         private float _lensRadius;
-        private Vector3 _lookAt = new Vector3(0, 0, -1);
-        private Vector3 _lookFrom = new Vector3(0f, 5f, 3f);
+        private Vector3 _lookAt;
+        private Vector3 _lookFrom;
         private Vector3 _lowerLeftCorner;
         private Vector3 _origin;
         private float _resX;
@@ -19,8 +19,8 @@ namespace RTIOWCS
         private Vector3 _u;
         private Vector3 _v;
         private Vector3 _vertical;
-        private float _verticalFieldOfView = 20;
-        private Vector3 _vUp = new Vector3(0, 1, 0);
+        private float _verticalFieldOfView;
+        private Vector3 _vUp;
         private Vector3 _w;
 
         public Vector3 VUp
@@ -109,7 +109,7 @@ namespace RTIOWCS
         {
             var rd = _lensRadius * Utils.GetRandomInDisk();
             var offset = _u * rd.X + _v * rd.Y;
-            return new Ray(_origin + offset, _lowerLeftCorner + s * _horizontal + t * _vertical - _origin);
+            return new Ray(_origin + offset, _lowerLeftCorner + s * _horizontal + t * _vertical - _origin - offset);
         }
 
         private void Update()
@@ -124,8 +124,8 @@ namespace RTIOWCS
             _v = Vector3.Cross(_w, _u);
             _lowerLeftCorner = _origin - halfWidth * _u * FocusDistance - halfHeight * _v * FocusDistance -
                                _w * FocusDistance;
-            _horizontal = 2 * halfWidth * _u;
-            _vertical = 2 * halfHeight * _v;
+            _horizontal = 2 * halfWidth * _u * FocusDistance;
+            _vertical = 2 * halfHeight * _v * FocusDistance;
         }
     }
 }

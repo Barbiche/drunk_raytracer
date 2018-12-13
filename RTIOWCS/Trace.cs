@@ -44,16 +44,20 @@ namespace RTIOWCS
         /// </summary>
         private static void Main()
         {
+            var LookFrom = new Vector3(-2, 2, 1);
+            var LookAt = new Vector3(0, 0, -1);
             var scene = new Scene
             {
                 FileName = "output.ppm",
                 FilePath = "C:\\Users\\gueth\\Desktop\\",
                 Camera = new Camera
                 {
-                    LookFrom = new Vector3(3, 3, 2),
-                    LookAt = new Vector3(0, 0, -1),
+                    LookFrom = LookFrom,
+                    LookAt = LookAt,
+                    VUp = new Vector3(0, 1, 0),
                     VerticalFieldOfView = 20,
                     Aperture = 2,
+                    FocusDistance = (LookFrom-LookAt).Length(),
                     ResX = 400,
                     ResY = 200
                 }

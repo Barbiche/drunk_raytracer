@@ -70,7 +70,7 @@ namespace RTIOWCS
                     var col = Vector3.Zero;
                     for (var s = 0; s < _ns; s++)
                     {
-                        var u = (i + Utils.Rand()) / Camera.ResX;
+                        var u =  (i + Utils.Rand()) / Camera.ResX;
                         var v =  (j + Utils.Rand()) / Camera.ResY;
 
                         var ray = Camera.GetRay(u, v);
