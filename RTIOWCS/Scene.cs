@@ -31,17 +31,33 @@ namespace RTIOWCS
 
         public TraceRay HitScene(TraceRay traceRay)
         {
-            var maxT = TMax;
             var defTraceRay = new TraceRay(traceRay);
-            foreach (var entity in _entities.Values)
+            bool hasHit = false;
+            long idEntity = -1;
+            float maxT = TMax;
+            foreach (var entity in _entities)
             {
                 var tempRay = new TraceRay(traceRay);
-                var tempT = entity.Hit(ref tempRay);
-                if (tempT < maxT)
+                tempRay.tMax = maxT;
+                if (entity.Value.Shape.IsHit(ref tempRay))
                 {
-                    defTraceRay = tempRay;
-                    maxT = tempT;
+                    hasHit = true;
+                    maxT = tempRay.T;
+                    defTraceRay = new TraceRay(tempRay);
+                    idEntity = entity.Key;
                 }
+            }
+
+            if (hasHit)
+            {
+                if (defTraceRay.Depth < 50)
+                {
+                    _entities[idEntity].Material.Scatter(ref defTraceRay);
+                    defTraceRay.Depth++;
+                    return HitScene(defTraceRay);
+                }
+
+                defTraceRay.Color = Vector3.Zero;               
             }
 
             return defTraceRay;
@@ -49,7 +65,7 @@ namespace RTIOWCS
 
         public long AddEntity(IShape shape, IMaterial material)
         {
-            _entities.Add(GenerateId(), new Entity(this, shape, material));
+            _entities.Add(GenerateId(), new Entity {Shape = shape, Material = material});
             return _currentId;
         }
 
@@ -70,15 +86,16 @@ namespace RTIOWCS
                     var col = Vector3.Zero;
                     for (var s = 0; s < _ns; s++)
                     {
-                        var u =  (i + Utils.Rand()) / Camera.ResX;
-                        var v =  (j + Utils.Rand()) / Camera.ResY;
+                        var u = (i + Utils.Rand()) / Camera.ResX;
+                        var v = (j + Utils.Rand()) / Camera.ResY;
 
                         var ray = Camera.GetRay(u, v);
                         var traceRay = new TraceRay(ray)
                         {
                             Color = ComputeBackground(ray),
                             tMax = TMax,
-                            tMin = TMin
+                            tMin = TMin,
+                            Depth = 0
                         };
                         var defTraceRay = HitScene(traceRay);
                         col += defTraceRay.Color;

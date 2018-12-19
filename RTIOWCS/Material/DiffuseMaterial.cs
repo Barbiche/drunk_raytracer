@@ -17,7 +17,7 @@ namespace RTIOWCS.Material
             Albedo = albedo;
         }
 
-        public void Scatter(TraceRay ray)
+        public void Scatter(ref TraceRay ray)
         {
             Vector3 target = ray.HitPoint + ray.Normal + Utils.GetRandomInSphere();
             ray.Ray = new Ray(ray.HitPoint, target - ray.HitPoint);

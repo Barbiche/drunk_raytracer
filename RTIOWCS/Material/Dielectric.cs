@@ -11,7 +11,7 @@ namespace RTIOWCS.Material
         public float Index { get; set; }
         public Vector3 Albedo { get; set; }
 
-        public void Scatter(TraceRay ray)
+        public void Scatter(ref TraceRay ray)
         {
             Vector3 outwardNormal;
             var reflected = Utils.Reflect(ray.Ray.Direction, ray.Normal);

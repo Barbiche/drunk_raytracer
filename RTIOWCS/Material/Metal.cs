@@ -20,7 +20,7 @@ namespace RTIOWCS.Material
 
         public float Fuzz { get; set; }
 
-        public void Scatter(TraceRay ray)
+        public void Scatter(ref TraceRay ray)
         {
             var reflected = Utils.Reflect(Vector3.Normalize(ray.Ray.Direction), ray.Normal);
             ray.Ray = new Ray(ray.HitPoint, reflected + Utils.GetRandomInSphere() * Fuzz);

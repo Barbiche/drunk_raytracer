@@ -5,6 +5,6 @@ namespace RTIOWCS.Material
     internal interface IMaterial
     {
         Vector3 Albedo { get; set; }
-        void Scatter(TraceRay ray);
+        void Scatter(ref TraceRay ray);
     }
 }

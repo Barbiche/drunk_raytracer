@@ -20,7 +20,7 @@ namespace RTIOWCS
         private Vector3 Center { get; }
         private float Radius { get; }
 
-        public bool IsHit(TraceRay traceRay)
+        public bool IsHit(ref TraceRay traceRay)
         {
             Ray ray = traceRay.Ray;
             var originToCenter = ray.Origin - Center;
@@ -35,7 +35,6 @@ namespace RTIOWCS
             if (temp < traceRay.tMax && temp > traceRay.tMin)
             {
                 traceRay.T = temp;
-                traceRay.tMax = temp;
                 traceRay.HitPoint = ray.PointAt(temp);
                 traceRay.Normal = GetNormalAtPoint(traceRay.HitPoint);
                 return true;
@@ -45,7 +44,6 @@ namespace RTIOWCS
             if (temp < traceRay.tMax && temp > traceRay.tMin)
             {
                 traceRay.T = temp;
-                traceRay.tMax = temp;
                 traceRay.HitPoint = ray.PointAt(temp);
                 traceRay.Normal = GetNormalAtPoint(traceRay.HitPoint);
                 return true;

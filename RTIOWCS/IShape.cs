@@ -4,7 +4,7 @@ namespace RTIOWCS
 {
     internal interface IShape
     {
-        bool IsHit(TraceRay ray);
+        bool IsHit(ref TraceRay ray);
         Vector3 GetNormalAtPoint(Vector3 point);
     }
 }

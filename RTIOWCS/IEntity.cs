@@ -1,9 +1,11 @@
 ﻿using System.Numerics;
+using RTIOWCS.Material;
 
 namespace RTIOWCS
 {
     internal interface IEntity
     {
-        float Hit(ref TraceRay traceRay);
+        IMaterial Material { get; set; }
+        IShape Shape { get; set; }
     }
 }

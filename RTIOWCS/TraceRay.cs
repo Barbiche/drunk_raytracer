@@ -4,10 +4,6 @@ namespace RTIOWCS
 {
     internal class TraceRay
     {
-        public TraceRay()
-        {
-        }
-
         public TraceRay(Ray ray)
         {
             Ray = ray;
@@ -22,6 +18,7 @@ namespace RTIOWCS
             HitPoint = ray.HitPoint;
             tMin = ray.tMin;
             tMax = ray.tMax;
+            Depth = ray.Depth;
         }
 
         public Ray Ray { get; set; }
@@ -31,5 +28,6 @@ namespace RTIOWCS
         public Vector3 Color { get; set; }
         public Vector3 Normal { get; set; }
         public Vector3 HitPoint { get; set; }
+        public int Depth { get; set; }
     }
 }
