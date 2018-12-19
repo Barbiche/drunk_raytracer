@@ -2,9 +2,12 @@
 
 namespace RTIOWCS.Material
 {
-    internal interface IMaterial
+    public interface IMaterial
     {
-        Vector3 Albedo { get; set; }
+        /// <summary>
+        ///     Compute the material contribution for the ray.
+        /// </summary>
+        /// <param name="ray">Ray which hits the material.</param>
         void Scatter(ref TraceRay ray);
     }
 }

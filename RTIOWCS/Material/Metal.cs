@@ -10,12 +10,6 @@ namespace RTIOWCS.Material
             Fuzz = fuzz;
         }
 
-        public Metal()
-        {
-            Albedo = new Vector3(0.8f, 0.6f, 0.2f);
-            Fuzz = 0.1f;
-        }
-
         public Vector3 Albedo { get; set; }
 
         public float Fuzz { get; set; }
@@ -25,13 +19,9 @@ namespace RTIOWCS.Material
             var reflected = Utils.Reflect(Vector3.Normalize(ray.Ray.Direction), ray.Normal);
             ray.Ray = new Ray(ray.HitPoint, reflected + Utils.GetRandomInSphere() * Fuzz);
             if (Vector3.Dot(ray.Ray.Direction, ray.Normal) > 0)
-            {
                 ray.Color *= Albedo;
-            }
             else
-            {
                 ray.Color = Vector3.Zero;
-            }
         }
     }
 }

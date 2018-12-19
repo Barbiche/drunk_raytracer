@@ -2,7 +2,7 @@
 
 namespace RTIOWCS
 {
-    internal class TraceRay
+    public class TraceRay
     {
         public TraceRay(Ray ray)
         {

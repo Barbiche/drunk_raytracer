@@ -9,7 +9,6 @@ namespace RTIOWCS.Material
         private readonly Vector3 _attenuation = new Vector3(1.0f, 1.0f, 1.0f);
 
         public float Index { get; set; }
-        public Vector3 Albedo { get; set; }
 
         public void Scatter(ref TraceRay ray)
         {
@@ -42,10 +41,7 @@ namespace RTIOWCS.Material
                 reflectProb = 1.0f;
             }
 
-            if (Utils.RandomGenerator.NextDouble() < reflectProb)
-                ray.Ray = new Ray(ray.HitPoint, reflected);
-            else
-                ray.Ray = new Ray(ray.HitPoint, refracted);
+            ray.Ray = Utils.RandomGenerator.NextDouble() < reflectProb ? new Ray(ray.HitPoint, reflected) : new Ray(ray.HitPoint, refracted);
             ray.Color *= _attenuation;
         }
 

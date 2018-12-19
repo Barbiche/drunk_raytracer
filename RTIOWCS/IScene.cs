@@ -1,11 +1,12 @@
-﻿using System.Numerics;
+﻿using System.Collections.Generic;
+using System.Numerics;
 
 namespace RTIOWCS
 {
-    internal interface IScene
+    public interface IScene
     {
-        TraceRay HitScene(TraceRay ray);
-        Vector3 Background { get; set; }
+        Dictionary<long, IEntity> Entities { get; }
+        Vector3 ComputeBackground(Ray ray);
         float TMin { get; set; }
         float TMax { get; set; }
     }

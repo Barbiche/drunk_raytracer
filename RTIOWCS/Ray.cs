@@ -2,7 +2,7 @@
 
 namespace RTIOWCS
 {
-    internal class Ray
+    public class Ray
     {
         public Ray(Vector3 origin, Vector3 direction)
         {

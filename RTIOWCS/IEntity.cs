@@ -1,9 +1,10 @@
 ﻿using System.Numerics;
 using RTIOWCS.Material;
+using RTIOWCS.Shapes;
 
 namespace RTIOWCS
 {
-    internal interface IEntity
+    public interface IEntity
     {
         IMaterial Material { get; set; }
         IShape Shape { get; set; }

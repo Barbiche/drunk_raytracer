@@ -3,22 +3,24 @@ using System.Collections.Generic;
 using System.IO;
 using System.Numerics;
 using RTIOWCS.Material;
+using RTIOWCS.Shapes;
 
 namespace RTIOWCS
 {
     internal class Scene : IScene
     {
-        private readonly Dictionary<long, IEntity> _entities;
         private readonly int _ns = 100;
         private long _currentId;
+        private Calculator _calculator;
 
         public Scene()
         {
             Background = new Vector3(0.5f, 0.7f, 1.0f);
-            _entities = new Dictionary<long, IEntity>();
+            Entities = new Dictionary<long, IEntity>();
             _currentId = 0;
             TMin = 0.001f;
             TMax = float.MaxValue;
+            _calculator = new Calculator(this);
         }
 
         public string FileName { get; set; } = "Output.ppm";
@@ -29,43 +31,11 @@ namespace RTIOWCS
         public float TMin { get; set; }
         public float TMax { get; set; }
 
-        public TraceRay HitScene(TraceRay traceRay)
-        {
-            var defTraceRay = new TraceRay(traceRay);
-            bool hasHit = false;
-            long idEntity = -1;
-            float maxT = TMax;
-            foreach (var entity in _entities)
-            {
-                var tempRay = new TraceRay(traceRay);
-                tempRay.tMax = maxT;
-                if (entity.Value.Shape.IsHit(ref tempRay))
-                {
-                    hasHit = true;
-                    maxT = tempRay.T;
-                    defTraceRay = new TraceRay(tempRay);
-                    idEntity = entity.Key;
-                }
-            }
-
-            if (hasHit)
-            {
-                if (defTraceRay.Depth < 50)
-                {
-                    _entities[idEntity].Material.Scatter(ref defTraceRay);
-                    defTraceRay.Depth++;
-                    return HitScene(defTraceRay);
-                }
-
-                defTraceRay.Color = Vector3.Zero;               
-            }
-
-            return defTraceRay;
-        }
+        public Dictionary<long, IEntity> Entities { get; }
 
         public long AddEntity(IShape shape, IMaterial material)
         {
-            _entities.Add(GenerateId(), new Entity {Shape = shape, Material = material});
+            Entities.Add(GenerateId(), new Entity {Shape = shape, Material = material});
             return _currentId;
         }
 
@@ -97,7 +67,7 @@ namespace RTIOWCS
                             tMin = TMin,
                             Depth = 0
                         };
-                        var defTraceRay = HitScene(traceRay);
+                        var defTraceRay = _calculator.ThrowRayInScene(traceRay);
                         col += defTraceRay.Color;
                     }
 
@@ -112,7 +82,7 @@ namespace RTIOWCS
             }
         }
 
-        private Vector3 ComputeBackground(Ray ray)
+        public Vector3 ComputeBackground(Ray ray)
         {
             var unitDirection = Vector3.Normalize(ray.Direction);
             var t = 0.5f * (unitDirection.Y + 1.0f);

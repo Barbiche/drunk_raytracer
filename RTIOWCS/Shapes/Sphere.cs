@@ -1,16 +1,10 @@
 ﻿using System;
 using System.Numerics;
 
-namespace RTIOWCS
+namespace RTIOWCS.Shapes
 {
     internal class Sphere : IShape
     {
-        public Sphere()
-        {
-            Center = Vector3.Zero;
-            Radius = 0.0f;
-        }
-
         public Sphere(Vector3 center, float radius)
         {
             Center = center;
@@ -22,7 +16,7 @@ namespace RTIOWCS
 
         public bool IsHit(ref TraceRay traceRay)
         {
-            Ray ray = traceRay.Ray;
+            var ray = traceRay.Ray;
             var originToCenter = ray.Origin - Center;
             var a = Vector3.Dot(ray.Direction, ray.Direction);
             var b = 2.0f * Vector3.Dot(originToCenter, ray.Direction);
@@ -30,7 +24,7 @@ namespace RTIOWCS
             var discriminant = b * b - 4 * a * c;
             if (discriminant < 0)
                 return false;
-            
+
             var temp = (-b - (float) Math.Sqrt(discriminant)) / (2.0f * a);
             if (temp < traceRay.tMax && temp > traceRay.tMin)
             {
