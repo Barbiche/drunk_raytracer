@@ -1,13 +1,13 @@
-﻿using System.Numerics;
+﻿using Dom.Raytrace;
 
-namespace RTIOWCS.Material
+namespace App.Materials
 {
-    public interface IMaterial
+    public interface IScatterable
     {
         /// <summary>
         ///     Compute the material contribution for the ray.
         /// </summary>
         /// <param name="ray">Ray which hits the material.</param>
-        void Scatter(ref TraceRay ray);
+        TraceRay Scatter(TraceRay ray);
     }
 }

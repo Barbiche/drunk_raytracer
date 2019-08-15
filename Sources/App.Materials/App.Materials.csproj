@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Dom.Materials\Dom.Materials.csproj" />
+    <ProjectReference Include="..\Dom.Raytrace\Dom.Raytrace.csproj" />
+    <ProjectReference Include="..\Fou.Maths\Fou.Maths.csproj" />
+  </ItemGroup>
+
+</Project>

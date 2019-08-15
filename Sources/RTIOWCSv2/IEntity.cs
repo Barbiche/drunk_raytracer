@@ -1,12 +1,11 @@
-﻿using System.Numerics;
-using RTIOWCS.Material;
+﻿using App.Materials;
 using RTIOWCS.Shapes;
 
 namespace RTIOWCS
 {
     public interface IEntity
     {
-        IMaterial Material { get; set; }
+        IScatterable Material { get; set; }
         IShape Shape { get; set; }
     }
 }

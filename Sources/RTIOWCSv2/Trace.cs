@@ -1,4 +1,6 @@
 ﻿using System.Numerics;
+using Fou.Maths;
+using Materials;
 using RTIOWCS.Material;
 using RTIOWCS.Shapes;
 
@@ -11,7 +13,7 @@ namespace RTIOWCS
             var n = 500;
             var scene = new Scene();
             scene.AddEntity(new Sphere(new Vector3(0, -1000, 0), 1000),
-                new DiffuseMaterial(new Vector3(0.5f, 0.5f, 0.5f)));
+                new Diffuse(new Vector3(0.5f, 0.5f, 0.5f)));
             for (var a = -11; a < 11; a++)
                 for (var b = -11; b < 11; b++)
                 {

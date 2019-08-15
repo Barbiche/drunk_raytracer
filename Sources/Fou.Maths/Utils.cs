@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Numerics;
 
-namespace RTIOWCS
+namespace Fou.Maths
 {
-    internal static class Utils
+    public static class Utils
     {
         public static readonly Random RandomGenerator = new Random();
 
@@ -31,7 +31,10 @@ namespace RTIOWCS
             var dt = Vector3.Dot(uv, n);
             var discriminant = 1.0f - niOverNt * niOverNt * (1 - dt * dt);
             if (discriminant > 0)
-                return niOverNt * (uv - n * dt) - n * (float) Math.Sqrt(discriminant);
+            {
+                return niOverNt * (uv - n * dt) - n * (float)Math.Sqrt(discriminant);
+            }
+
             return Vector3.Zero;
         }
 
@@ -40,8 +43,8 @@ namespace RTIOWCS
             Vector3 p;
             do
             {
-                p = 2.0f * new Vector3((float) RandomGenerator.NextDouble(), (float) RandomGenerator.NextDouble(),
-                        (float) RandomGenerator.NextDouble()) - Vector3.One;
+                p = 2.0f * new Vector3((float)RandomGenerator.NextDouble(), (float)RandomGenerator.NextDouble(),
+                        (float)RandomGenerator.NextDouble()) - Vector3.One;
             } while (p.LengthSquared() >= 1.0f);
 
             return p;
@@ -60,7 +63,7 @@ namespace RTIOWCS
 
         public static float Rand()
         {
-            return (float) RandomGenerator.NextDouble();
+            return (float)RandomGenerator.NextDouble();
         }
     }
 }

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Numerics;
+using Dom.Raytrace;
+using Fou.Maths;
 using RTIOWCS.Material;
 using RTIOWCS.Shapes;
 
@@ -33,7 +35,7 @@ namespace RTIOWCS
 
         public Dictionary<long, IEntity> Entities { get; }
 
-        public long AddEntity(IShape shape, IMaterial material)
+        public long AddEntity(IShape shape, IScatterable material)
         {
             Entities.Add(GenerateId(), new Entity {Shape = shape, Material = material});
             return _currentId;
