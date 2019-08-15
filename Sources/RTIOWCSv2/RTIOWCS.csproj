@@ -7,8 +7,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\App.Materials\App.Materials.csproj" />
+    <ProjectReference Include="..\App.Shapes\App.Shapes.csproj" />
     <ProjectReference Include="..\Dom.Materials\Dom.Materials.csproj" />
     <ProjectReference Include="..\Dom.Raytrace\Dom.Raytrace.csproj" />
+    <ProjectReference Include="..\Dom.Shapes\Dom.Shapes.csproj" />
     <ProjectReference Include="..\Fou.Maths\Fou.Maths.csproj" />
   </ItemGroup>
 

@@ -21,7 +21,7 @@ namespace RTIOWCS
             {
                 var tempRay = new TraceRay(traceRay);
                 tempRay.tMax = maxT;
-                if (entity.Value.Shape.IsHit(ref tempRay))
+                if (entity.Value.Shape.TryHit(tempRay, out var hitpoint))
                 {
                     hasHit = true;
                     maxT = tempRay.T;
