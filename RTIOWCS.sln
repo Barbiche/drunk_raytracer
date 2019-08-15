@@ -1,9 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2050
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.156
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RTIOWCS", "RTIOWCS\RTIOWCS.csproj", "{8FC90ACB-1EB9-4252-BC62-8A31EEA854F2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dom", "Dom", "{19A970CC-30FC-4447-BFD1-6BAEB112B19F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materials", "Materials\Materials.csproj", "{6AD79AF1-9AAA-46AB-8B2D-6AF82AC8F43D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{F082795D-1676-46C4-B406-6D7A97DFF69E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +21,16 @@ Global
 		{8FC90ACB-1EB9-4252-BC62-8A31EEA854F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FC90ACB-1EB9-4252-BC62-8A31EEA854F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8FC90ACB-1EB9-4252-BC62-8A31EEA854F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AD79AF1-9AAA-46AB-8B2D-6AF82AC8F43D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AD79AF1-9AAA-46AB-8B2D-6AF82AC8F43D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AD79AF1-9AAA-46AB-8B2D-6AF82AC8F43D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AD79AF1-9AAA-46AB-8B2D-6AF82AC8F43D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6AD79AF1-9AAA-46AB-8B2D-6AF82AC8F43D} = {19A970CC-30FC-4447-BFD1-6BAEB112B19F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {214782FF-F894-4821-BB1F-C9BBD3A6F871}
