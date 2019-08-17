@@ -1,14 +1,18 @@
-﻿using Dom.Raytrace;
+﻿using App.RayTrace;
+using Dom.Raytrace;
 using Dom.Shapes;
 using System;
 using System.Numerics;
 
 namespace App.Shapes
 {
-    public class SphereEntity : IHitable
+    public class SphereEntity : Entity, IPositionable
     {
-        public SphereEntity(Sphere sphere)
+        public SphereEntity(Sphere sphere) : this(new Vector3(), sphere) { }
+
+        public SphereEntity(Vector3 center, Sphere sphere) : base()
         {
+            _translation = center;
             Sphere = sphere;
         }
 
@@ -19,7 +23,7 @@ namespace App.Shapes
             hitpoint = new Hitpoint();
 
             var ray = traceRay.Ray;
-            var originToCenter = ray.Origin - Sphere.Center;
+            var originToCenter = ray.Origin - Translation;
             var a = Vector3.Dot(ray.Direction, ray.Direction);
             var b = 2.0f * Vector3.Dot(originToCenter, ray.Direction);
             var c = Vector3.Dot(originToCenter, originToCenter) - Sphere.Radius * Sphere.Radius;
@@ -53,7 +57,7 @@ namespace App.Shapes
 
         public Vector3 GetNormalAtPoint(Vector3 point)
         {
-            return (point - Sphere.Center) / Sphere.Radius;
+            return (point - Translation) / Sphere.Radius;
         }
     }
 }

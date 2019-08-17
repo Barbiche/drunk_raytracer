@@ -6,15 +6,12 @@ namespace Dom.Shapes
 {
     public struct Sphere : IEquatable<Sphere>
     {
-        public Sphere(Vector3 center, float radius)
+        public Sphere(float radius)
         {
-            Center = center;
             Radius = radius;
         }
 
         private static readonly MemberwiseEqualityComparer<Sphere> Comparer = MemberwiseEqualityComparer<Sphere>.ByProperties;
-
-        public Vector3 Center { get; }
         public float Radius { get; }
 
         public bool Equals(Sphere other)
