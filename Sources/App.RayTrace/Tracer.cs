@@ -1,18 +1,22 @@
-﻿using Dom.Raytrace;
+﻿using App.Cameras;
+using Dom.Raytrace;
+using System.Numerics;
 
 namespace App.RayTrace
 {
-    public class Tracer : ITracer
+    public class BackgroundTracer : ITracer
     {
 
-        public Tracer(ISceneAccessor scene, int resolutionX, int resolutionY)
+        public BackgroundTracer(ISceneAccessor scene, IRayTraceCamera camera, int resolutionX, int resolutionY)
         {
             Scene = scene;
+            Camera = camera;
             ResolutionX = resolutionX;
             ResolutionY = resolutionY;
         }
 
         public ISceneAccessor Scene { get; }
+        public IRayTraceCamera Camera { get; }
         public int ResolutionX { get; }
         public int ResolutionY { get; }
 
@@ -23,7 +27,11 @@ namespace App.RayTrace
             {
                 for (int x = 0; x < ResolutionX; x++)
                 {
-                    frame.AddPixel(new Pixel(Scene.BackgroundColor), x, y);
+                    var ray = Camera.GetRay(x, y);
+                    var unitDirection = Vector3.Normalize(ray.Direction);
+                    var t = 0.5f * (unitDirection.Y + 1.0f);
+                    var color = (1.0f - t) * new Vector3(1.0f, 1.0f, 1.0f) + t * Scene.BackgroundColor;
+                    frame.AddPixel(new Pixel(color), x, y);
                 }
             }
 

@@ -1,0 +1,10 @@
+﻿using Dom.Camera;
+using System.Numerics;
+
+namespace App.Cameras
+{
+    public interface ICameraFactory
+    {
+        IRayTraceCamera CreateCamera(Vector3 lookFrom, Vector3 lookAt, Vector3 vUp, float verticalFieldOfView, float aperture, int resolutionX, int resolutionY);
+    }
+}

@@ -5,12 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Ensure.That" Version="8.1.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\App.Cameras\App.Cameras.csproj" />
+    <ProjectReference Include="..\Dom.Cameras\Dom.Cameras.csproj" />
     <ProjectReference Include="..\Dom.Raytrace\Dom.Raytrace.csproj" />
+    <ProjectReference Include="..\Fou.Maths\Fou.Maths.csproj" />
   </ItemGroup>
 
 </Project>
