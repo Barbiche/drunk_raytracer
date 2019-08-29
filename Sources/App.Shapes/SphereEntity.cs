@@ -1,4 +1,4 @@
-﻿using App.RayTrace;
+﻿using App.Engine;
 using Dom.Raytrace;
 using Dom.Shapes;
 using System;
@@ -6,7 +6,7 @@ using System.Numerics;
 
 namespace App.Shapes
 {
-    public class SphereEntity : Entity, IPositionable
+    public class SphereEntity : Entity, IHitable
     {
         public SphereEntity(Sphere sphere) : this(new Vector3(), sphere) { }
 

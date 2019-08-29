@@ -1,4 +1,5 @@
 ﻿using App.Cameras;
+using App.Engine;
 using App.RayTrace;
 using App.Shapes;
 using Inf.PPMWriter;
@@ -22,14 +23,14 @@ namespace RTIOWCS_Console
             // Create the scene
             var entities = new HashSet<Entity>()
             {
-                new SphereEntity(new Dom.Shapes.Sphere(1.0f))
+                new SphereEntity(new Vector3(0.0f, 0.0f, 0.0f), new Dom.Shapes.Sphere(0.5f))
             };
 
             var cameraFactory = new CameraFactory();
             var camera = cameraFactory.CreateDefaultCamera();
 
-            var scene = new Scene(entities, new Vector3(255.0f, 168f, 22f));
-            var tracer = new BackgroundTracer(scene, camera, 200, 200);
+            var scene = new Scene(entities, new Vector3(0.5f, 0.7f, 1.0f));
+            var tracer = new BackgroundTracer(scene, camera, 300, 200);
             var frame = tracer.Trace();
 
             var ppmWriter = new PPMWriter("C:\\Users\\gueth\\Desktop");

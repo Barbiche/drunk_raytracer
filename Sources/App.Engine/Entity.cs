@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace App.RayTrace
+namespace App.Engine
 {
     public abstract class Entity : IPositionable
     {

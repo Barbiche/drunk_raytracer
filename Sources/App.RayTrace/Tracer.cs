@@ -1,5 +1,6 @@
 ﻿using App.Cameras;
 using Dom.Raytrace;
+using Fou.Maths;
 using System.Numerics;
 
 namespace App.RayTrace
@@ -23,19 +24,46 @@ namespace App.RayTrace
         public Frame Trace()
         {
             var frame = new Frame(ResolutionX, ResolutionY);
+
             for (int y = 0; y < ResolutionY; y++)
             {
                 for (int x = 0; x < ResolutionX; x++)
                 {
-                    var ray = Camera.GetRay(x, y);
-                    var unitDirection = Vector3.Normalize(ray.Direction);
-                    var t = 0.5f * (unitDirection.Y + 1.0f);
-                    var color = (1.0f - t) * new Vector3(1.0f, 1.0f, 1.0f) + t * Scene.BackgroundColor;
+                    var color = Vector3.Zero;
+                    for (var s = 0; s < 50; s++)
+                    {
+                        var u = (x + Utils.Rand()) / ResolutionX;
+                        var v = (y + Utils.Rand()) / ResolutionY;
+
+                        var ray = Camera.GetRay(u, v);
+                        var newColor = GetBackgroundContribution(ray);
+                        var traceray = new TraceRay(ray, 0, 0.001f, float.MaxValue, color, Vector3.Zero, Vector3.Zero, 10);
+
+                        foreach (var hitable in Scene.Hitables)
+                        {
+                            var result = hitable.TryHit(traceray, out var hitpoint);
+                            if (result)
+                            {
+                                newColor = new Vector3(1.0f, 0.0f, 0.0f);
+                                break;
+                            }
+                        }
+                        color += newColor;
+                    }
+
+                    color /= 50;
                     frame.AddPixel(new Pixel(color), x, y);
                 }
             }
 
             return frame;
+        }
+
+        private Vector3 GetBackgroundContribution(Ray ray)
+        {
+            var unitDirection = Vector3.Normalize(ray.Direction);
+            var t = 0.5f * (unitDirection.Y + 1.0f);
+            return (1.0f - t) * new Vector3(1.0f, 1.0f, 1.0f) + t * Scene.BackgroundColor;
         }
     }
 }

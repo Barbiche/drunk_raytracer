@@ -13,7 +13,14 @@ namespace Dom.Raytrace
             B = b < 0 ? 0 : b;
         }
 
-        public Pixel(Vector3 rgb) : this((int)rgb.X, (int)rgb.Y, (int)rgb.Z) { }
+        public Pixel(Vector3 rgb)
+        {
+            rgb = new Vector3((float)Math.Sqrt(rgb.X), (float)Math.Sqrt(rgb.Y), (float)Math.Sqrt(rgb.Z));
+            R = (int)(255.99 * rgb.X);
+            G = (int)(255.99 * rgb.Y);
+            B = (int)(255.99 * rgb.Z);
+
+        }
 
         public int R { get; }
 

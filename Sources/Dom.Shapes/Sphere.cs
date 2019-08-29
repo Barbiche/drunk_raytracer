@@ -1,6 +1,5 @@
 ﻿using Equ;
 using System;
-using System.Numerics;
 
 namespace Dom.Shapes
 {
