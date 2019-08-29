@@ -1,5 +1,5 @@
 # RIAR
-RIAR Is A Raytracer. Everything is said.
+RIAR Is A Raytracer.
 Highly inspired from Peter Shirley's MAGNIFICENT collection on raytracing. However this one is in C#.
 
 Features:
