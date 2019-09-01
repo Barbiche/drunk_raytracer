@@ -1,4 +1,5 @@
 ﻿using App.Engine;
+using App.Materials;
 using App.Shapes;
 using System.Collections.Generic;
 using System.Numerics;
@@ -7,9 +8,9 @@ namespace App.RayTrace
 {
     public interface ISceneAccessor
     {
-        IEnumerable<Entity> Entities { get; }
+        IReadOnlyDictionary<EntityId, IScatterable> Scatterables { get; }
 
-        IEnumerable<IHitable> Hitables { get; }
+        IReadOnlyDictionary<EntityId, IHitable> Hitables { get; }
 
         Vector3 BackgroundColor { get; }
     }

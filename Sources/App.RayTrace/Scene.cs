@@ -1,23 +1,37 @@
 ﻿using App.Engine;
+using App.Materials;
 using App.Shapes;
 using System.Collections.Generic;
-using System.Linq;
+using System.Collections.ObjectModel;
 using System.Numerics;
 
 namespace App.RayTrace
 {
     public class Scene : ISceneAccessor
     {
-        private readonly ISet<Entity> _entities;
-        public IEnumerable<Entity> Entities => _entities;
-
         public Vector3 BackgroundColor { get; }
 
-        public IEnumerable<IHitable> Hitables => Entities.OfType<IHitable>();
+        public IReadOnlyDictionary<EntityId, IHitable> Hitables => new ReadOnlyDictionary<EntityId, IHitable>(_hitables);
+
+        public IReadOnlyDictionary<EntityId, IScatterable> Scatterables => new ReadOnlyDictionary<EntityId, IScatterable>(_scatterables);
+
+        private readonly IDictionary<EntityId, IHitable> _hitables = new Dictionary<EntityId, IHitable>();
+        private readonly IDictionary<EntityId, IScatterable> _scatterables = new Dictionary<EntityId, IScatterable>();
 
         public Scene(IEnumerable<Entity> entities, Vector3 background)
         {
-            _entities = new HashSet<Entity>(entities);
+            foreach (var entity in entities)
+            {
+                if (entity is IHitable hitable)
+                {
+                    _hitables.Add(entity.Id, hitable);
+                }
+
+                if (entity is IScatterable scatterable)
+                {
+                    _scatterables.Add(entity.Id, scatterable);
+                }
+            }
             BackgroundColor = background;
         }
     }

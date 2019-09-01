@@ -37,14 +37,16 @@ namespace App.RayTrace
 
                         var ray = Camera.GetRay(u, v);
                         var newColor = GetBackgroundContribution(ray);
-                        var traceray = new TraceRay(ray, 0, 0.001f, float.MaxValue, color, Vector3.Zero, Vector3.Zero, 10);
+                        var traceray = new TraceRay(ray, 0, 0.001f, float.MaxValue, newColor, Vector3.Zero, Vector3.Zero, 10);
 
                         foreach (var hitable in Scene.Hitables)
                         {
-                            var result = hitable.TryHit(traceray, out var hitpoint);
+                            var result = hitable.Value.TryHit(traceray, out var hitpoint);
                             if (result)
                             {
-                                newColor = new Vector3(1.0f, 0.0f, 0.0f);
+                                var id = hitable.Key;
+                                var resultRay = Scene.Scatterables[id].Scatter(traceray);
+                                newColor = resultRay.Color;
                                 break;
                             }
                         }

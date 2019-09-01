@@ -1,4 +1,5 @@
 ﻿using App.Engine;
+using App.Materials;
 using Dom.Raytrace;
 using Dom.Shapes;
 using System;
@@ -6,12 +7,15 @@ using System.Numerics;
 
 namespace App.Shapes
 {
-    public class SphereEntity : Entity, IHitable
+    public class SphereEntity : Entity, IHitable, IScatterable
     {
-        public SphereEntity(Sphere sphere) : this(new Vector3(), sphere) { }
+        public IScatterable Scatterable { get; }
 
-        public SphereEntity(Vector3 center, Sphere sphere) : base()
+        public SphereEntity(EntityId id, Sphere sphere, IScatterable material) : this(id, new Vector3(), sphere, material) { }
+
+        public SphereEntity(EntityId id, Vector3 center, Sphere sphere, IScatterable material) : base(id)
         {
+            Scatterable = material;
             _translation = center;
             Sphere = sphere;
         }
@@ -58,6 +62,11 @@ namespace App.Shapes
         public Vector3 GetNormalAtPoint(Vector3 point)
         {
             return (point - Translation) / Sphere.Radius;
+        }
+
+        public TraceRay Scatter(TraceRay ray)
+        {
+            return Scatterable.Scatter(ray);
         }
     }
 }
