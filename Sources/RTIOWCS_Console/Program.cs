@@ -27,7 +27,8 @@ namespace RTIOWCS_Console
             // Create the scene
             var entities = new HashSet<Entity>()
             {
-                sphereEntityFactory.Create(new Vector3(0.0f, 0.0f, 0.0f), new Dom.Shapes.Sphere(0.5f), new ScatterableDiffuse(new Materials.Diffuse(new Vector3(1.0f, 0.0f, 0.0f))))
+                sphereEntityFactory.Create(new Vector3(0.0f, 0.0f, 0.0f), new Dom.Shapes.Sphere(0.5f), new ScatterableDiffuse(new Materials.Diffuse(new Vector3(1.0f, 0.0f, 0.0f)))),
+                sphereEntityFactory.Create(new Vector3(0.0f, 100.5f, 0.0f), new Dom.Shapes.Sphere(100f), new ScatterableDiffuse(new Materials.Diffuse(new Vector3(0.8f, 0.8f, 0.0f))))
             };
 
             var cameraFactory = new CameraFactory();

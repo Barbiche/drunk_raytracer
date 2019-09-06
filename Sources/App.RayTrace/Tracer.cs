@@ -7,7 +7,6 @@ namespace App.RayTrace
 {
     public class BackgroundTracer : ITracer
     {
-
         public BackgroundTracer(ISceneAccessor scene, IRayTraceCamera camera, int resolutionX, int resolutionY)
         {
             Scene = scene;
@@ -37,20 +36,11 @@ namespace App.RayTrace
 
                         var ray = Camera.GetRay(u, v);
                         var newColor = GetBackgroundContribution(ray);
-                        var traceray = new TraceRay(ray, 0, 0.001f, float.MaxValue, newColor, Vector3.Zero, Vector3.Zero, 10);
+                        var traceray = new TraceRay(ray, 0, 0.001f, float.MaxValue, newColor, Vector3.Zero, Vector3.Zero, 0);
 
-                        foreach (var hitable in Scene.Hitables)
-                        {
-                            var result = hitable.Value.TryHit(traceray, out var hitpoint);
-                            if (result)
-                            {
-                                var id = hitable.Key;
-                                var resultRay = Scene.Scatterables[id].Scatter(traceray);
-                                newColor = resultRay.Color;
-                                break;
-                            }
-                        }
-                        color += newColor;
+
+                        var resultRay = ThrowRay(traceray);
+                        color += resultRay.Color;
                     }
 
                     color /= 50;
@@ -59,6 +49,33 @@ namespace App.RayTrace
             }
 
             return frame;
+        }
+
+        private TraceRay ThrowRay(TraceRay traceray)
+        {
+            foreach (var hitable in Scene.Hitables)
+            {
+                var result = hitable.Value.TryHit(ref traceray, out var hitpoint);
+                if (result)
+                {
+                    if (traceray.T < traceray.TMax)
+                    {
+                        traceray.TMax = traceray.T;
+                        var id = hitable.Key;
+                        traceray.Normal = hitpoint.Normal;
+                        traceray.HitPoint = hitpoint.Point;
+                        traceray = Scene.Scatterables[id].Scatter(traceray);
+                        traceray.Depth++;
+                        if (traceray.Depth > 10)
+                        {
+                            traceray = new TraceRay(traceray.Ray, traceray.T, traceray.TMin, traceray.TMax, new Vector3(0.0f), traceray.Normal, traceray.HitPoint, traceray.Depth);
+                            break;
+                        }
+                        return ThrowRay(traceray);
+                    } 
+                }
+            }
+            return traceray;
         }
 
         private Vector3 GetBackgroundContribution(Ray ray)

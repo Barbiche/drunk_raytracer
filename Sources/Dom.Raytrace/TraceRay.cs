@@ -22,13 +22,13 @@ namespace Dom.Raytrace
         private static readonly MemberwiseEqualityComparer<TraceRay> Comparer = MemberwiseEqualityComparer<TraceRay>.ByProperties;
 
         public Ray Ray { get; }
-        public float T { get; }
-        public float TMin { get; }
-        public float TMax { get; }
+        public float T { get; set; }
+        public float TMin { get;  }
+        public float TMax { get; set; }
         public Vector3 Color { get; }
-        public Vector3 Normal { get; }
-        public Vector3 HitPoint { get; }
-        public int Depth { get; }
+        public Vector3 Normal { get; set; }
+        public Vector3 HitPoint { get; set; }
+        public int Depth { get; set; }
 
         public bool Equals(TraceRay other)
         {
