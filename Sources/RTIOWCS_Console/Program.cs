@@ -30,7 +30,7 @@ namespace RTIOWCS_Console
                 sphereEntityFactory.Create(new Vector3(0.0f, 0.2f, 0.5f), new Dom.Shapes.Sphere(0.5f), new ScatterableDiffuse(new Materials.Diffuse(new Vector3(1.0f, 0.7f, 0.0f)))),
                 sphereEntityFactory.Create(new Vector3(0.8f, 0.2f, -0.2f), new Dom.Shapes.Sphere(0.5f), new ScatterableDielectric(new Materials.Dielectric(1.5f))),
                 sphereEntityFactory.Create(new Vector3(-0.8f, 0.2f, -0.2f), new Dom.Shapes.Sphere(0.5f), new ScatterableMetal(new Materials.Metal(new Vector3(0.0f, 0.6f, 1.0f), 0.1f))),
-                sphereEntityFactory.Create(new Vector3(0.0f, 200.5f, 0.0f), new Dom.Shapes.Sphere(200f), new ScatterableDiffuse(new Materials.Diffuse(new Vector3(0.5f, 0.5f, 0.5f))))
+                sphereEntityFactory.Create(new Vector3(0.0f, 200.0f, 0.0f), new Dom.Shapes.Sphere(200f), new ScatterableDiffuse(new Materials.Diffuse(new Vector3(0.5f, 0.5f, 0.5f))))
             };
 
             var cameraFactory = new CameraFactory();

@@ -16,8 +16,8 @@ namespace App.Materials
 
         public TraceRay Scatter(TraceRay ray)
         {
-            var reflected = Utils.Reflect(Vector3.Normalize(ray.Ray.Direction), ray.Normal);
-            var newRay = new Ray(ray.HitPoint, reflected + Utils.GetRandomInSphere() * _material.Fuzz);
+            var reflected = Maths.Reflect(Vector3.Normalize(ray.Ray.Direction), ray.Normal);
+            var newRay = new Ray(ray.HitPoint, reflected + Maths.GetRandomInSphere() * _material.Fuzz);
             Vector3 newColor;
             if (Vector3.Dot(newRay.Direction, ray.Normal) > 0)
             {

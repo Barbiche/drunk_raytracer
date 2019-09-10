@@ -18,7 +18,7 @@ namespace App.Materials
         public TraceRay Scatter(TraceRay ray)
         {
             Vector3 outwardNormal;
-            var reflected = Utils.Reflect(ray.Ray.Direction, ray.Normal);
+            var reflected = Maths.Reflect(ray.Ray.Direction, ray.Normal);
             float niOverNt;
             float cosine;
             float reflectProb;
@@ -36,7 +36,8 @@ namespace App.Materials
                 cosine = -Vector3.Dot(ray.Ray.Direction, ray.Normal) / ray.Ray.Direction.Length();
             }
 
-            if (Utils.Refract(ray.Ray.Direction, outwardNormal, niOverNt, out var refracted))
+            var refracted = Maths.Refract(ray.Ray.Direction, outwardNormal, niOverNt);
+            if (refracted.HasValue)
             {
                 reflectProb = Schlick(cosine, _material.Index);
             }
@@ -45,7 +46,7 @@ namespace App.Materials
                 reflectProb = 1.0f;
             }
 
-            Ray newRay = Utils.RandomGenerator.NextDouble() < reflectProb ? new Ray(ray.HitPoint, reflected) : new Ray(ray.HitPoint, refracted);
+            Ray newRay = Maths.RandomGenerator.NextDouble() < reflectProb ? new Ray(ray.HitPoint, reflected) : new Ray(ray.HitPoint, refracted);
 
             return new TraceRay(newRay,
                                 ray.TMin,

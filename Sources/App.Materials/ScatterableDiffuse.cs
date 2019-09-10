@@ -15,7 +15,7 @@ namespace App.Materials
 
         public TraceRay Scatter(TraceRay ray)
         {
-            var target = ray.HitPoint + ray.Normal + Utils.GetRandomInSphere();
+            var target = ray.HitPoint + ray.Normal + Maths.GetRandomInSphere();
             var newRay = new Ray(ray.HitPoint, target - ray.HitPoint);
             var newColor = ray.Color * _material.Albedo;
             return new TraceRay(newRay,

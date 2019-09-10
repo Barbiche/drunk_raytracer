@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Fou.Utils;
+using System;
 using System.Numerics;
 
 namespace Fou.Maths
 {
-    public static class Utils
+    public static class Maths
     {
         public static readonly Random RandomGenerator = new Random();
 
@@ -25,19 +26,16 @@ namespace Fou.Maths
         /// <param name="n">Normal</param>
         /// <param name="niOverNt">Index ratio</param>
         /// <returns>Refracted direction, Vector null if not possible</returns>
-        public static bool Refract(Vector3 v, Vector3 n, float niOverNt, out Vector3 refracted)
+        public static Option<Vector3> Refract(Vector3 v, Vector3 n, float niOverNt)
         {
             var uv = Vector3.Normalize(v);
             var dt = Vector3.Dot(uv, n);
             var discriminant = 1.0f - niOverNt * niOverNt * (1 - dt * dt);
             if (discriminant > 0)
             {
-                refracted = niOverNt * (uv - n * dt) - n * (float)Math.Sqrt(discriminant);
-                return true;
+                return new Option<Vector3>(niOverNt * (uv - n * dt) - n * (float)Math.Sqrt(discriminant));
             }
-
-            refracted = new Vector3(0.0f);
-            return false;
+            return new Option<Vector3>(new Vector3(0.0f));
         }
 
         public static Vector3 GetRandomInSphere()

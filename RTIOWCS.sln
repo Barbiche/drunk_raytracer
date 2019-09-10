@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dom.Raytrace", "Sources\Dom
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Fou", "Fou", "{66AC7458-8F89-4384-BAF7-1C5B02FED6BE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fou.Maths", "Sources\Fou.Maths\Fou.Maths.csproj", "{2351E75A-1965-4468-86C1-EA5B6C4DD681}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fou.Utils", "Sources\Fou.Utils\Fou.Utils.csproj", "{2351E75A-1965-4468-86C1-EA5B6C4DD681}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.RayTrace", "Sources\App.RayTrace\App.RayTrace.csproj", "{5570D773-BC57-464F-B8FA-35D5EE1EE6C2}"
 EndProject
