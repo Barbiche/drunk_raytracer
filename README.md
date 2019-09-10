@@ -1,13 +1,12 @@
 # RIAR
-RIAR Is A Raytracer. Everything is said.
-Highly inspired from Peter Shirley's MAGNIFICENT collection on raytracing. However this one is in C#.
 
-Features:
- - Spheres.
- - Simple materials: lambertian diffuse, basic Metals and buggy dielectrics.
- - Simple camera (not matrix based, what a shame).
- - Defocus blur.
- - MSAA.
+RIAR Is A Raytracer, written fully in C#. Yet we can complain of this unusual technological choice, this basic ray-tracer application is meant to be comprehensive, safe and highly adaptable to any further modification. That is probably because I prefer C# to C++ though.
 
-This project is clearly for personal education, however feel free to add suggestions!
+Currently provided as a Microsoft Visual Studio 2019 solution, fully written in C# .NET Core 2.2.
+To use it:
+
+1- Adapt your scene in `Program.cs` file in the `RTIOWCS_Console` project.
+2- Compile and launch the project !
+
+Output is provided as a .ppm file.
 
