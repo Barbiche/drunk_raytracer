@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
@@ -7,7 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Dom.Cameras\Dom.Cameras.csproj" />
     <ProjectReference Include="..\Dom.Raytrace\Dom.Raytrace.csproj" />
-    <ProjectReference Include="..\Fou.Maths\Fou.Maths.csproj" />
+    <ProjectReference Include="..\Fou.Utils\Fou.Utils.csproj" />
   </ItemGroup>
 
 </Project>

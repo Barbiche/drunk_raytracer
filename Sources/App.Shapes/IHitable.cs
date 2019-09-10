@@ -1,9 +1,10 @@
 ﻿using Dom.Raytrace;
+using Fou.Utils;
 
 namespace App.Shapes
 {
     public interface IHitable
     {
-        bool TryHit(TraceRay traceRay, out RayHitpoint hitpoint);
+        Option<RayHitpoint> TryHit(Ray ray, RayParameter bottomBoundary, RayParameter topBoundary);
     }
 }

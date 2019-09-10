@@ -15,7 +15,7 @@ namespace App.Cameras
 
         public Ray GetRay(float s, float t)
         {
-            var rd = Camera.LensRadius * Utils.GetRandomInDisk();
+            var rd = Camera.LensRadius * Maths.GetRandomInDisk();
             var offset = Camera.Down * rd.X + Camera.Right * rd.Y;
             return new Ray(Camera.Origin + offset,
                            Camera.LowerLeftCorner + (s * Camera.Horizontal) + (t * Camera.Vertical) - Camera.Origin - offset);

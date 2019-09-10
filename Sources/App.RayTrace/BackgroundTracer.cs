@@ -34,12 +34,12 @@ namespace App.RayTrace
                     var color = Vector3.Zero;
                     for (var s = 0; s < _sampling; s++)
                     {
-                        var u = (x + Utils.Rand()) / ResolutionX;
-                        var v = (y + Utils.Rand()) / ResolutionY;
+                        var u = (x + Maths.Rand()) / ResolutionX;
+                        var v = (y + Maths.Rand()) / ResolutionY;
 
                         var ray = Camera.GetRay(u, v);
                         var newColor = GetBackgroundContribution(ray);
-                        var traceray = new TraceRay(ray, 0.001f, float.MaxValue, newColor, Vector3.Zero, Vector3.Zero, 0);
+                        var traceray = new TraceRay(ray, new RayParameter(0.001f), new RayParameter(float.MaxValue), newColor, Vector3.Zero, Vector3.Zero, 0);
 
 
                         var resultRay = ThrowRay(traceray);
@@ -58,14 +58,14 @@ namespace App.RayTrace
         {
             foreach (var hitable in Scene.Hitables)
             {
-                var result = hitable.Value.TryHit(traceray, out var hitpoint);
-                if (result)
+                var contact = hitable.Value.TryHit(traceray.Ray, traceray.TMin, traceray.TMax);
+                if (contact.HasValue)
                 {
-                    if (hitpoint.T < traceray.TMax)
+                    if (contact.Value.T < traceray.TMax)
                     {
-                        traceray.TMax = hitpoint.T;    
-                        traceray.Normal = hitpoint.Normal;
-                        traceray.HitPoint = hitpoint.Point;
+                        traceray.TMax = contact.Value.T;    
+                        traceray.Normal = contact.Value.Normal;
+                        traceray.HitPoint = contact.Value.Point;
 
                         var id = hitable.Key;
                         traceray = Scene.Scatterables[id].Scatter(traceray);

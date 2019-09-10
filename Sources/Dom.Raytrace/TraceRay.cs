@@ -6,7 +6,7 @@ namespace Dom.Raytrace
 {
     public class TraceRay : IEquatable<TraceRay>
     {
-        public TraceRay(Ray ray, float tMin, float tMax, Vector3 color, Vector3 normal, Vector3 hitPoint, int depth)
+        public TraceRay(Ray ray, RayParameter tMin, RayParameter tMax, Vector3 color, Vector3 normal, Vector3 hitPoint, int depth)
         {
             Ray = ray;
             TMin = tMin;
@@ -27,8 +27,8 @@ namespace Dom.Raytrace
         private static readonly MemberwiseEqualityComparer<TraceRay> Comparer = MemberwiseEqualityComparer<TraceRay>.ByProperties;
 
         public Ray Ray { get; set; }
-        public float TMin { get; set; }
-        public float TMax { get; set; }
+        public RayParameter TMin { get; set; }
+        public RayParameter TMax { get; set; }
         public Vector3 Color { get; set; }
         public Vector3 Normal { get; set; }
         public Vector3 HitPoint { get; set; }
