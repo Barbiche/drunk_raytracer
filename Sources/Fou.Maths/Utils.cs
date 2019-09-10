@@ -25,17 +25,19 @@ namespace Fou.Maths
         /// <param name="n">Normal</param>
         /// <param name="niOverNt">Index ratio</param>
         /// <returns>Refracted direction, Vector null if not possible</returns>
-        public static Vector3 Refract(Vector3 v, Vector3 n, float niOverNt)
+        public static bool Refract(Vector3 v, Vector3 n, float niOverNt, out Vector3 refracted)
         {
             var uv = Vector3.Normalize(v);
             var dt = Vector3.Dot(uv, n);
             var discriminant = 1.0f - niOverNt * niOverNt * (1 - dt * dt);
             if (discriminant > 0)
             {
-                return niOverNt * (uv - n * dt) - n * (float)Math.Sqrt(discriminant);
+                refracted = niOverNt * (uv - n * dt) - n * (float)Math.Sqrt(discriminant);
+                return true;
             }
 
-            return Vector3.Zero;
+            refracted = new Vector3(0.0f);
+            return false;
         }
 
         public static Vector3 GetRandomInSphere()

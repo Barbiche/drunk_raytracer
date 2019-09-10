@@ -26,7 +26,8 @@ namespace App.Materials
             {
                 outwardNormal = -ray.Normal;
                 niOverNt = _material.Index;
-                cosine = _material.Index * Vector3.Dot(ray.Ray.Direction, ray.Normal) / ray.Ray.Direction.Length();
+                cosine = Vector3.Dot(ray.Ray.Direction, ray.Normal) / ray.Ray.Direction.Length();
+                cosine = (float)Math.Sqrt(1 - _material.Index * _material.Index * (1 - cosine * cosine));
             }
             else
             {
@@ -35,8 +36,7 @@ namespace App.Materials
                 cosine = -Vector3.Dot(ray.Ray.Direction, ray.Normal) / ray.Ray.Direction.Length();
             }
 
-            var refracted = Utils.Refract(ray.Ray.Direction, outwardNormal, niOverNt);
-            if (refracted != Vector3.Zero)
+            if (Utils.Refract(ray.Ray.Direction, outwardNormal, niOverNt, out var refracted))
             {
                 reflectProb = Schlick(cosine, _material.Index);
             }
@@ -45,14 +45,12 @@ namespace App.Materials
                 reflectProb = 1.0f;
             }
 
-            var newRay = Utils.RandomGenerator.NextDouble() < reflectProb ? new Ray(ray.HitPoint, reflected) : new Ray(ray.HitPoint, refracted);
-            var newColor = ray.Color * _material.Attenuation;
+            Ray newRay = Utils.RandomGenerator.NextDouble() < reflectProb ? new Ray(ray.HitPoint, reflected) : new Ray(ray.HitPoint, refracted);
 
             return new TraceRay(newRay,
-                                ray.T,
                                 ray.TMin,
                                 ray.TMax,
-                                newColor,
+                                ray.Color,
                                 ray.Normal,
                                 ray.HitPoint,
                                 ray.Depth);
@@ -61,7 +59,7 @@ namespace App.Materials
         private float Schlick(float cosine, float index)
         {
             var r0 = (1 - index) / (1 + index);
-            r0 = r0 * r0;
+            r0 *= r0;
             return r0 + (1 - r0) * (float)Math.Pow(1 - cosine, 5);
         }
     }

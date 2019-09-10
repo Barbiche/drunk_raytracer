@@ -7,12 +7,15 @@ namespace App.RayTrace
 {
     public class BackgroundTracer : ITracer
     {
-        public BackgroundTracer(ISceneAccessor scene, IRayTraceCamera camera, int resolutionX, int resolutionY)
+        private readonly int _sampling;
+
+        public BackgroundTracer(ISceneAccessor scene, IRayTraceCamera camera, int resolutionX, int resolutionY, int sampling)
         {
             Scene = scene;
             Camera = camera;
             ResolutionX = resolutionX;
             ResolutionY = resolutionY;
+            _sampling = sampling;
         }
 
         public ISceneAccessor Scene { get; }
@@ -29,21 +32,21 @@ namespace App.RayTrace
                 for (int x = 0; x < ResolutionX; x++)
                 {
                     var color = Vector3.Zero;
-                    for (var s = 0; s < 50; s++)
+                    for (var s = 0; s < _sampling; s++)
                     {
                         var u = (x + Utils.Rand()) / ResolutionX;
                         var v = (y + Utils.Rand()) / ResolutionY;
 
                         var ray = Camera.GetRay(u, v);
                         var newColor = GetBackgroundContribution(ray);
-                        var traceray = new TraceRay(ray, 0, 0.001f, float.MaxValue, newColor, Vector3.Zero, Vector3.Zero, 0);
+                        var traceray = new TraceRay(ray, 0.001f, float.MaxValue, newColor, Vector3.Zero, Vector3.Zero, 0);
 
 
                         var resultRay = ThrowRay(traceray);
                         color += resultRay.Color;
                     }
 
-                    color /= 50;
+                    color /= _sampling;
                     frame.AddPixel(new Pixel(color), x, y);
                 }
             }
@@ -55,20 +58,23 @@ namespace App.RayTrace
         {
             foreach (var hitable in Scene.Hitables)
             {
-                var result = hitable.Value.TryHit(ref traceray, out var hitpoint);
+                var result = hitable.Value.TryHit(traceray, out var hitpoint);
                 if (result)
                 {
-                    if (traceray.T < traceray.TMax)
+                    if (hitpoint.T < traceray.TMax)
                     {
-                        traceray.TMax = traceray.T;
-                        var id = hitable.Key;
+                        traceray.TMax = hitpoint.T;    
                         traceray.Normal = hitpoint.Normal;
                         traceray.HitPoint = hitpoint.Point;
+
+                        var id = hitable.Key;
                         traceray = Scene.Scatterables[id].Scatter(traceray);
+
                         traceray.Depth++;
-                        if (traceray.Depth > 10)
+
+                        if (traceray.Depth > 50)
                         {
-                            traceray = new TraceRay(traceray.Ray, traceray.T, traceray.TMin, traceray.TMax, new Vector3(0.0f), traceray.Normal, traceray.HitPoint, traceray.Depth);
+                            traceray.Color = new Vector3(0.0f);
                             break;
                         }
                         return ThrowRay(traceray);

@@ -4,6 +4,6 @@ namespace App.Shapes
 {
     public interface IHitable
     {
-        bool TryHit(ref TraceRay traceRay, out Hitpoint hitpoint);
+        bool TryHit(TraceRay traceRay, out RayHitpoint hitpoint);
     }
 }

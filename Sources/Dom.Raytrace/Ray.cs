@@ -15,9 +15,9 @@ namespace Dom.Raytrace
             Direction = direction;
         }
 
-        public Vector3 PointAt(float t)
+        public Vector3 PointAt(RayParameter t)
         {
-            return Origin + t * Direction;
+            return Origin + t.Value * Direction;
         }
 
         private static readonly MemberwiseEqualityComparer<Ray> Comparer = MemberwiseEqualityComparer<Ray>.ByProperties;

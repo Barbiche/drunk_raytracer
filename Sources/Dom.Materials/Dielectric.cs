@@ -1,17 +1,14 @@
 ﻿using Equ;
 using System;
-using System.Numerics;
 
 namespace Materials
 {
     public struct Dielectric : IEquatable<Dielectric>
     {
-        public Vector3 Attenuation { get; }
         public float Index { get; }
 
-        public Dielectric(Vector3 attenuation, float index)
+        public Dielectric(float index)
         {
-            Attenuation = attenuation;
             Index = index;
         }
 

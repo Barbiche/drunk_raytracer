@@ -22,9 +22,9 @@ namespace App.Shapes
 
         public Sphere Sphere { get; }
 
-        public bool TryHit(ref TraceRay traceRay, out Hitpoint hitpoint)
+        public bool TryHit( TraceRay traceRay, out RayHitpoint hitpoint)
         {
-            hitpoint = new Hitpoint();
+            hitpoint = new RayHitpoint();
 
             var ray = traceRay.Ray;
             var originToCenter = ray.Origin - Translation;
@@ -38,23 +38,21 @@ namespace App.Shapes
                 return false;
             }
 
-            var temp = (-b - (float)Math.Sqrt(discriminant)) / (2.0f * a);
+            var temp = new RayParameter((-b - (float)Math.Sqrt(discriminant)) / (2.0f * a));
             if (temp < traceRay.TMax && temp > traceRay.TMin)
             {
-                traceRay.T = temp;
                 var hitPoint = ray.PointAt(temp);
-                var normal = GetNormalAtPoint(traceRay.HitPoint);
-                hitpoint = new Hitpoint(hitPoint, normal);
+                var normal = GetNormalAtPoint(hitPoint);
+                hitpoint = new RayHitpoint(hitPoint, normal, temp);
                 return true;
             }
 
-            temp = (-b + (float)Math.Sqrt(discriminant)) / (2.0f * a);
+            temp = new RayParameter((-b + (float)Math.Sqrt(discriminant)) / (2.0f * a));
             if (temp < traceRay.TMax && temp > traceRay.TMin)
             {
-                traceRay.T = temp;
                 var hitPoint = ray.PointAt(temp);
-                var normal = GetNormalAtPoint(traceRay.HitPoint);
-                hitpoint = new Hitpoint(hitPoint, normal);
+                var normal = GetNormalAtPoint(hitPoint);
+                hitpoint = new RayHitpoint(hitPoint, normal, temp);
                 return true;
             }
 

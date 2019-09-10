@@ -19,7 +19,7 @@ namespace App.Materials
             var reflected = Utils.Reflect(Vector3.Normalize(ray.Ray.Direction), ray.Normal);
             var newRay = new Ray(ray.HitPoint, reflected + Utils.GetRandomInSphere() * _material.Fuzz);
             Vector3 newColor;
-            if (Vector3.Dot(ray.Ray.Direction, ray.Normal) > 0)
+            if (Vector3.Dot(newRay.Direction, ray.Normal) > 0)
             {
                 newColor = ray.Color * _material.Albedo;
             }
@@ -29,7 +29,6 @@ namespace App.Materials
             }
 
             return new TraceRay(newRay,
-                    ray.T,
                     ray.TMin,
                     ray.TMax,
                     newColor,

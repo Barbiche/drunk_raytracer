@@ -4,28 +4,32 @@ using System.Numerics;
 
 namespace Dom.Raytrace
 {
-    public struct TraceRay : IEquatable<TraceRay>
+    public class TraceRay : IEquatable<TraceRay>
     {
-        public TraceRay(Ray ray, float T, float tMin, float tMax, Vector3 Color, Vector3 Normal, Vector3 HitPoint, int Depth)
+        public TraceRay(Ray ray, float tMin, float tMax, Vector3 color, Vector3 normal, Vector3 hitPoint, int depth)
         {
             Ray = ray;
-            this.T = T;
             TMin = tMin;
             TMax = tMax;
-            this.Color = Color;
-            this.Normal = Normal;
-            this.HitPoint = HitPoint;
-            this.Depth = Depth;
+            Color = color;
+            Normal = normal;
+            HitPoint = hitPoint;
+            Depth = depth;
         }
 
+        private TraceRay() { }
+
+        public TraceRay(Ray ray)
+        {
+            Ray = ray;
+        }
 
         private static readonly MemberwiseEqualityComparer<TraceRay> Comparer = MemberwiseEqualityComparer<TraceRay>.ByProperties;
 
-        public Ray Ray { get; }
-        public float T { get; set; }
-        public float TMin { get;  }
+        public Ray Ray { get; set; }
+        public float TMin { get; set; }
         public float TMax { get; set; }
-        public Vector3 Color { get; }
+        public Vector3 Color { get; set; }
         public Vector3 Normal { get; set; }
         public Vector3 HitPoint { get; set; }
         public int Depth { get; set; }

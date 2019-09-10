@@ -1,23 +1,26 @@
-﻿using System;
-using System.Numerics;
+﻿using Dom.Raytrace;
 using Equ;
+using System;
+using System.Numerics;
 
 namespace App.Shapes
 {
-    public struct Hitpoint : IEquatable<Hitpoint>
+    public struct RayHitpoint : IEquatable<RayHitpoint>
     {
-        private static readonly MemberwiseEqualityComparer<Hitpoint> Comparer = MemberwiseEqualityComparer<Hitpoint>.ByProperties;
+        private static readonly MemberwiseEqualityComparer<RayHitpoint> Comparer = MemberwiseEqualityComparer<RayHitpoint>.ByProperties;
 
-        public Hitpoint(Vector3 point, Vector3 normal)
+        public RayHitpoint(Vector3 point, Vector3 normal, RayParameter t)
         {
             Point = point;
             Normal = normal;
+            T = t;
         }
 
         public Vector3 Point { get; }
         public Vector3 Normal { get; }
+        public RayParameter T { get; }
 
-        public bool Equals(Hitpoint other)
+        public bool Equals(RayHitpoint other)
         {
             return Comparer.Equals(this, other);
         }
