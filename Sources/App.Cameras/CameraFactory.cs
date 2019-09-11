@@ -30,7 +30,7 @@ namespace App.Cameras
         public IRayTraceCamera CreateDefaultCamera()
         {
             return CreateCamera
-                (new Vector3(0, -3, 8),
+                (new Vector3(0, -8, 12),
                  new Vector3(0, 0, 0),
                  new Vector3(0, 1, 0),
                  20,
