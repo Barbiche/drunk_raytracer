@@ -28,11 +28,6 @@ namespace App.Shapes
             return (point - Translation) / Sphere.Radius;
         }
 
-        public TraceRay Scatter(TraceRay ray)
-        {
-            return Scatterable.Scatter(ray);
-        }
-
         public Option<RayHitpoint> TryHit(Ray ray, RayParameter bottomBoundary, RayParameter topBoundary)
         {
             var originToCenter = ray.Origin - Translation;
@@ -63,6 +58,11 @@ namespace App.Shapes
             }
 
             return Option<RayHitpoint>.Empty;
+        }
+
+        public RayScattered Scatter(Ray ray, RayHitpoint hitpoint, Color rayColor)
+        {
+            return Scatterable.Scatter(ray, hitpoint, rayColor);
         }
     }
 }

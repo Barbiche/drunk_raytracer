@@ -14,27 +14,21 @@ namespace App.Materials
             _material = material;
         }
 
-        public TraceRay Scatter(TraceRay ray)
+        public RayScattered Scatter(Ray ray, RayHitpoint hitpoint, Color rayColor)
         {
-            var reflected = Maths.Reflect(Vector3.Normalize(ray.Ray.Direction), ray.Normal);
-            var newRay = new Ray(ray.HitPoint, reflected + Maths.GetRandomInSphere() * _material.Fuzz);
-            Vector3 newColor;
-            if (Vector3.Dot(newRay.Direction, ray.Normal) > 0)
+            var reflected = Maths.Reflect(Vector3.Normalize(ray.Direction), hitpoint.Normal);
+            var newRay = new Ray(hitpoint.Point, reflected + Maths.GetRandomInSphere() * _material.Fuzz);
+            Color newColor;
+            if (Vector3.Dot(newRay.Direction, hitpoint.Normal) > 0)
             {
-                newColor = ray.Color * _material.Albedo;
+                newColor = new Color(rayColor.Value * _material.Albedo);
             }
             else
             {
-                newColor = Vector3.Zero;
+                newColor = new Color(Vector3.Zero);
             }
 
-            return new TraceRay(newRay,
-                    ray.TMin,
-                    ray.TMax,
-                    newColor,
-                    ray.Normal,
-                    ray.HitPoint,
-                    ray.Depth);
+            return new RayScattered(newRay, newColor);
         }
     }
 }

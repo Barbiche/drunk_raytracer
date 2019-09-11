@@ -1,4 +1,5 @@
 ﻿using App.Cameras;
+using App.Engine;
 using Dom.Raytrace;
 using Fou.Maths;
 using System.Numerics;
@@ -38,12 +39,8 @@ namespace App.RayTrace
                         var v = (y + Maths.Rand()) / ResolutionY;
 
                         var ray = Camera.GetRay(u, v);
-                        var newColor = GetBackgroundContribution(ray);
-                        var traceray = new TraceRay(ray, new RayParameter(0.001f), new RayParameter(float.MaxValue), newColor, Vector3.Zero, Vector3.Zero, 0);
-
-
-                        var resultRay = ThrowRay(traceray);
-                        color += resultRay.Color;
+                        var resultColor = ThrowRay(ray, new RayParameter(0.001f), new RayParameter(float.MaxValue), GetBackgroundContribution(ray), 0);
+                        color += resultColor.Value;
                     }
 
                     color /= _sampling;
@@ -54,41 +51,42 @@ namespace App.RayTrace
             return frame;
         }
 
-        private TraceRay ThrowRay(TraceRay traceray)
+        public Color ThrowRay(Ray ray, RayParameter minParameter, RayParameter maxParameter, Color color, int depth)
         {
+            bool hasHit = false;
+            var candidateParameter = maxParameter;
+            var candidateHitpoint = new RayHitpoint();
+            var candidateId = new EntityId();
             foreach (var hitable in Scene.Hitables)
             {
-                var contact = hitable.Value.TryHit(traceray.Ray, traceray.TMin, traceray.TMax);
-                if (contact.HasValue)
+                var contact = hitable.Value.TryHit(ray, minParameter, maxParameter);
+                if (contact.HasValue && contact.Value.T < candidateParameter)
                 {
-                    if (contact.Value.T < traceray.TMax)
-                    {
-                        traceray.TMax = contact.Value.T;    
-                        traceray.Normal = contact.Value.Normal;
-                        traceray.HitPoint = contact.Value.Point;
-
-                        var id = hitable.Key;
-                        traceray = Scene.Scatterables[id].Scatter(traceray);
-
-                        traceray.Depth++;
-
-                        if (traceray.Depth > 50)
-                        {
-                            traceray.Color = new Vector3(0.0f);
-                            break;
-                        }
-                        return ThrowRay(traceray);
-                    } 
+                    candidateParameter = contact.Value.T;
+                    candidateHitpoint = contact;
+                    candidateId = hitable.Key;
+                    hasHit = true;
                 }
             }
-            return traceray;
+
+            if (hasHit)
+            {
+                // Scatter
+                var rayScattered = Scene.Scatterables[candidateId].Scatter(ray, candidateHitpoint, new Color(color.Value));
+                if (++depth > 50)
+                {
+                    return new Color(new Vector3(0.0f));
+                }
+                return ThrowRay(rayScattered.Scattered, minParameter, candidateParameter, rayScattered.Color, depth);
+            }
+            return color;
         }
 
-        private Vector3 GetBackgroundContribution(Ray ray)
+        private Color GetBackgroundContribution(Ray ray)
         {
             var unitDirection = Vector3.Normalize(ray.Direction);
             var t = 0.5f * (unitDirection.Y + 1.0f);
-            return (1.0f - t) * new Vector3(1.0f, 1.0f, 1.0f) + t * Scene.BackgroundColor;
+            return new Color((1.0f - t) * new Vector3(1.0f, 1.0f, 1.0f) + t * Scene.BackgroundColor);
         }
     }
 }

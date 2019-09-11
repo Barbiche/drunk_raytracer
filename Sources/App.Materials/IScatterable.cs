@@ -8,6 +8,6 @@ namespace App.Materials
         ///     Compute the material contribution for the ray.
         /// </summary>
         /// <param name="ray">Ray which hits the material.</param>
-        TraceRay Scatter(TraceRay ray);
+        RayScattered Scatter(Ray ray, RayHitpoint hitpoint, Color rayColor);
     }
 }

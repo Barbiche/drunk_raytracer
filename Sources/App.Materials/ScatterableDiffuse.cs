@@ -13,18 +13,12 @@ namespace App.Materials
             _material = material;
         }
 
-        public TraceRay Scatter(TraceRay ray)
+        public RayScattered Scatter(Ray ray, RayHitpoint hitpoint, Color rayColor)
         {
-            var target = ray.HitPoint + ray.Normal + Maths.GetRandomInSphere();
-            var newRay = new Ray(ray.HitPoint, target - ray.HitPoint);
-            var newColor = ray.Color * _material.Albedo;
-            return new TraceRay(newRay,
-                    ray.TMin,
-                    ray.TMax,
-                    newColor,
-                    ray.Normal,
-                    ray.HitPoint,
-                    ray.Depth);
+            var target = hitpoint.Point + hitpoint.Normal + Maths.GetRandomInSphere();
+            var newRay = new Ray(hitpoint.Point, target - hitpoint.Point);
+            var newColor = new Color(rayColor.Value * _material.Albedo);
+            return new RayScattered(newRay, newColor);
         }
     }
 }

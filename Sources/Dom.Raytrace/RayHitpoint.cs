@@ -3,7 +3,7 @@ using Equ;
 using System;
 using System.Numerics;
 
-namespace App.Shapes
+namespace Dom.Raytrace
 {
     public struct RayHitpoint : IEquatable<RayHitpoint>
     {
