@@ -6,32 +6,26 @@ namespace Dom.Camera
 {
     public struct Camera : IEquatable<Camera>
     {
-        public Camera(Vector3 vertical,
-                      Vector3 horizontal,
-                      Vector3 lowerLeftCorner,
-                      Vector3 origin,
-                      Vector3 right,
-                      Vector3 down,
-                      float lensRadius)
+        private static readonly MemberwiseEqualityComparer<Camera> Comparer = MemberwiseEqualityComparer<Camera>.ByProperties;
+
+        public Camera(float lensRadius, Vector3 u, Vector3 v, Vector3 origin, Vector3 lowerLeftCorner, Vector3 horizontal, Vector3 vertical)
         {
-            Vertical = vertical;
-            Horizontal = horizontal;
-            LowerLeftCorner = lowerLeftCorner;
-            Origin = origin;
-            Right = right;
-            Down = down;
             LensRadius = lensRadius;
+            U = u;
+            V = v;
+            Origin = origin;
+            LowerLeftCorner = lowerLeftCorner;
+            Horizontal = horizontal;
+            Vertical = vertical;
         }
 
-        public Vector3 Vertical { get; }
-        public Vector3 Horizontal { get; }
-        public Vector3 LowerLeftCorner { get; }
-        public Vector3 Origin { get; }
-        public Vector3 Right { get; }
-        public Vector3 Down { get; }
         public float LensRadius { get; }
-
-        private static readonly MemberwiseEqualityComparer<Camera> Comparer = MemberwiseEqualityComparer<Camera>.ByProperties;
+        public Vector3 U { get; }
+        public Vector3 V { get; }
+        public Vector3 Origin { get; }
+        public Vector3 LowerLeftCorner { get; }
+        public Vector3 Horizontal { get; }
+        public Vector3 Vertical { get; }
 
         public bool Equals(Camera other)
         {

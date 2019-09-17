@@ -13,6 +13,9 @@ namespace RTIOWCS_Console
 {
     internal class Program
     {
+        public static float resolutionHorizontal = 1200;
+        public static float resolutionVertical = 800;
+
         private static void Main()
         {
             var task = Task.Run(() => Run());
@@ -26,20 +29,27 @@ namespace RTIOWCS_Console
             // Create the scene
             var entities = new HashSet<Entity>()
             {
-                sphereEntityFactory.Create(new Vector3(0.725f, -0.5f, 0.725f), new Dom.Shapes.Sphere(0.5f), new ScatterableDiffuse(new Materials.Diffuse(new Vector3(1.0f, 0.0f, 0.0f)))),
-                sphereEntityFactory.Create(new Vector3(0.725f, -0.5f, -0.725f),new Dom.Shapes.Sphere(0.5f), new ScatterableDiffuse(new Materials.Diffuse(new Vector3(0.0f, 1.0f, 0.0f)))),
-                sphereEntityFactory.Create(new Vector3(-0.725f, -0.5f, 0.725f), new Dom.Shapes.Sphere(0.5f), new ScatterableDiffuse(new Materials.Diffuse(new Vector3(0.0f, 0.0f, 1.0f)))),
-                sphereEntityFactory.Create(new Vector3(-0.725f, -0.5f, -0.725f), new Dom.Shapes.Sphere(0.5f), new ScatterableDiffuse(new Materials.Diffuse(new Vector3(1.0f, 1.0f, 0.0f)))),
-                sphereEntityFactory.Create(new Vector3(0.0f, -0.5f, 3.0f), new Dom.Shapes.Sphere(0.5f), new ScatterableDielectric(new Materials.Dielectric(1.5f))),
-                sphereEntityFactory.Create(new Vector3(3.0f, -0.5f, 0.0f), new Dom.Shapes.Sphere(0.5f), new ScatterableDielectric(new Materials.Dielectric(1.5f))),
-                sphereEntityFactory.Create(new Vector3(0.0f, -0.5f, -3.0f),new Dom.Shapes.Sphere(0.5f), new ScatterableDielectric(new Materials.Dielectric(1.5f))),
-                sphereEntityFactory.Create(new Vector3(-3.0f, -0.5f, 0.0f), new Dom.Shapes.Sphere(0.5f), new ScatterableDielectric(new Materials.Dielectric(1.5f))),
-                sphereEntityFactory.Create(new Vector3(0.0f, -0.5f, 0.0f), new Dom.Shapes.Sphere(0.5f), new ScatterableMetal(new Materials.Metal(new Vector3(0.0f, 1.0f, 1.0f), 0.1f))),
-                sphereEntityFactory.Create(new Vector3(0.0f, 200.0f, 0.0f), new Dom.Shapes.Sphere(200f), new ScatterableDiffuse(new Materials.Diffuse(new Vector3(0.5f, 0.5f, 0.5f))))
+                sphereEntityFactory.Create(new Vector3(0.725f, 0.5f, 0.725f), new Dom.Shapes.Sphere(0.5f), new ScatterableDiffuse(new Materials.Diffuse(new Vector3(1.0f, 0.0f, 0.0f)))),
+                sphereEntityFactory.Create(new Vector3(0.725f, 0.5f, -0.725f),new Dom.Shapes.Sphere(0.5f), new ScatterableDiffuse(new Materials.Diffuse(new Vector3(0.0f, 1.0f, 0.0f)))),
+                sphereEntityFactory.Create(new Vector3(-0.725f, 0.5f, 0.725f), new Dom.Shapes.Sphere(0.5f), new ScatterableDiffuse(new Materials.Diffuse(new Vector3(0.0f, 0.0f, 1.0f)))),
+                sphereEntityFactory.Create(new Vector3(-0.725f, 0.5f, -0.725f), new Dom.Shapes.Sphere(0.5f), new ScatterableDiffuse(new Materials.Diffuse(new Vector3(1.0f, 1.0f, 0.0f)))),
+                sphereEntityFactory.Create(new Vector3(0.0f, 0.5f, 3.0f), new Dom.Shapes.Sphere(0.5f), new ScatterableDielectric(new Materials.Dielectric(1.5f))),
+                sphereEntityFactory.Create(new Vector3(3.0f, 0.5f, 0.0f), new Dom.Shapes.Sphere(0.5f), new ScatterableDielectric(new Materials.Dielectric(1.5f))),
+                sphereEntityFactory.Create(new Vector3(0.0f, 0.5f, -3.0f),new Dom.Shapes.Sphere(0.5f), new ScatterableDielectric(new Materials.Dielectric(1.5f))),
+                sphereEntityFactory.Create(new Vector3(-3.0f, 0.5f, 0.0f), new Dom.Shapes.Sphere(0.5f), new ScatterableDielectric(new Materials.Dielectric(1.5f))),
+                sphereEntityFactory.Create(new Vector3(0.0f, 0.5f, 0.0f), new Dom.Shapes.Sphere(0.5f), new ScatterableMetal(new Materials.Metal(new Vector3(0.0f, 1.0f, 1.0f), 0.1f))),
+                sphereEntityFactory.Create(new Vector3(0.0f, -200.0f, 0.0f), new Dom.Shapes.Sphere(200f), new ScatterableDiffuse(new Materials.Diffuse(new Vector3(0.5f, 0.5f, 0.5f))))
             };
 
             var cameraFactory = new CameraFactory();
-            var camera = cameraFactory.CreateDefaultCamera();
+
+            var lookFrom = new Vector3(0, 8, 12);
+            var lookat = new Vector3(0, 0, 0);
+            float distanceToFocus = (lookFrom - lookat).Length();
+            float aperture = 0.1f;
+            var camera = cameraFactory.CreateCamera(lookFrom, lookat, new Vector3(0, 1, 0), 20, (float)resolutionHorizontal / resolutionVertical, aperture, distanceToFocus);
+
+
             var scene = new Scene(entities, new Vector3(0.2f, 0.0f, 0.43f));
             var tracer = new BackgroundTracer(scene, camera, 1200, 800, 50);
             var frame = tracer.Trace();
