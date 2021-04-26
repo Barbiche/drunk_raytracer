@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Dom.Raytrace;
 using EnsureThat;
 using Fou.Utils;
@@ -27,10 +28,14 @@ namespace App.RayTrace
             var progressBar = new ProgressBar();
             ProgressStream.Subscribe(progress => progressBar.Update(progress * 100 / _totalProgress),
                                      () => progressBar.Complete());
-            
+
+            var clock = new Stopwatch();
+            clock.Start();
             var frame = _tracer.Trace();
+            clock.Stop();
             
             Console.WriteLine("Frame finished!");
+            Console.WriteLine($"Elapsed time: {clock.Elapsed}.");
             return frame;
         }
     }

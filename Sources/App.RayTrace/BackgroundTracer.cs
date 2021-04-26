@@ -55,9 +55,9 @@ namespace App.RayTrace
 
                     // y axis is up so we reverse y !
                     pixels[x, ResolutionY - 1 - y] = new Pixel(color);
-
-                    _progressSubject.OnNext(y * ResolutionX + x);
                 }
+                
+                _progressSubject.OnNext(y * ResolutionX);
             }
 
             _progressSubject.OnCompleted();
