@@ -3,7 +3,7 @@ using System;
 
 namespace Dom.Shapes
 {
-    public struct Sphere : IEquatable<Sphere>
+    public readonly struct Sphere : IEquatable<Sphere>
     {
         public Sphere(float radius)
         {

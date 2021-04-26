@@ -2,11 +2,11 @@
 {
     public class EntityIdFactory : IEntityIdFactory
     {
-        private long _idCount = 0;
+        private long _idCount;
 
         public EntityId Create()
         {
-            return new EntityId(++_idCount);
+            return new(++_idCount);
         }
     }
 }

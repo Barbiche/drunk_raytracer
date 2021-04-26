@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace Dom.Raytrace
 {
-    public struct Ray : IEquatable<Ray>
+    public readonly struct Ray : IEquatable<Ray>
     {
         public Vector3 Origin { get; }
         public Vector3 Direction { get; }
@@ -24,6 +24,26 @@ namespace Dom.Raytrace
         public bool Equals(Ray other)
         {
             return Comparer.Equals(this, other);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Ray other && Comparer.Equals(this, other);
+        }
+
+        public override int GetHashCode()
+        {
+            return Comparer.GetHashCode(this);
+        }
+
+        public static bool operator ==(Ray left, Ray right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(Ray left, Ray right)
+        {
+            return !(left == right);
         }
     }
 }

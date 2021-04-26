@@ -3,49 +3,47 @@ using System.IO;
 
 namespace Inf.PPMWriter
 {
-    public class PPMWriter : IPPMWriter
+    public class PpmWriter : IPpmWriter
     {
-        public PPMWriter(string outputFolder)
-        {
-            OutputFolder = outputFolder;
-        }
+        private readonly string _outputFolder;
 
-        public string OutputFolder { get; }
+        public PpmWriter(string outputFolder)
+        {
+            _outputFolder = outputFolder;
+        }
 
         private int ResolutionX { get; set; }
         private int ResolutionY { get; set; }
 
         public string Write(Frame frame, string filename)
         {
-            var filePath = Path.Combine(OutputFolder, filename);
+            var filePath = Path.Combine(_outputFolder, filename);
 
             ResolutionX = frame.ResolutionX;
             ResolutionY = frame.ResolutionY;
 
-            using (var file = new StreamWriter(filePath))
+            using var file = new StreamWriter(filePath);
+            file.WriteLine(CreateHeader(frame));
+
+            for (var y = 0; y < ResolutionY; y++)
             {
-                file.WriteLine(CreateHeader(frame));
-
-                for (int y = 0; y < ResolutionY; y++)
+                for (var x = 0; x < ResolutionX; x++)
                 {
-                    for (int x = 0; x < ResolutionX; x++)
-                    {
-                        file.WriteLine(CreatePixelLine(frame, x, y));
-                    }
+                    file.WriteLine(CreatePixelLine(frame, x, y));
                 }
-
-                file.Close();
             }
+
+            file.Close();
 
             return filePath;
         }
 
-        private string CreateHeader(Frame frame)
+        private static string CreateHeader(Frame frame)
         {
             return $"P3\n{frame.ResolutionX} {frame.ResolutionY}\n255";
         }
 
-        private string CreatePixelLine(Frame frame, int x, int y)
+        private static string CreatePixelLine(Frame frame, int x, int y)
         {
             var pixel = frame.Pixels[x, y];
             return $"{pixel.R} {pixel.G} {pixel.B}";

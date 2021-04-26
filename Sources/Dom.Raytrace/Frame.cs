@@ -1,26 +1,28 @@
-﻿using EnsureThat;
+﻿using System;
 using Equ;
-using System;
 
 namespace Dom.Raytrace
 {
-    public struct Frame : IEquatable<Frame>
+    public readonly struct Frame : IEquatable<Frame>
     {
+        public override int GetHashCode()
+        {
+            return Comparer.GetHashCode(this);
+        }
+
         public Pixel[,] Pixels { get; }
 
-        public Frame(int resolutionX, int resolutionY)
+        public Frame(Pixel[,] pixels)
         {
-            Ensure.That(resolutionX).IsGt(0);
-            Ensure.That(resolutionY).IsGt(0);
+            ResolutionX = pixels.GetLength(0);
+            ResolutionY = pixels.GetLength(1);
 
-            ResolutionX = resolutionX;
-            ResolutionY = resolutionY;
-
-            Pixels = new Pixel[ResolutionX, ResolutionY];
+            Pixels = pixels;
         }
 
 
-        private static readonly MemberwiseEqualityComparer<Frame> Comparer = MemberwiseEqualityComparer<Frame>.ByProperties;
+        private static readonly MemberwiseEqualityComparer<Frame> Comparer =
+            MemberwiseEqualityComparer<Frame>.ByProperties;
 
         public int ResolutionX { get; }
         public int ResolutionY { get; }
@@ -30,12 +32,19 @@ namespace Dom.Raytrace
             return Comparer.Equals(this, other);
         }
 
-        public void AddPixel(Pixel pixel, int x, int y)
+        public override bool Equals(object obj)
         {
-            Ensure.That(x).IsInRange(0, ResolutionX);
-            Ensure.That(y).IsInRange(0, ResolutionX);
+            return obj is Frame frame && Equals(frame);
+        }
 
-            Pixels[x, y] = pixel;
+        public static bool operator ==(Frame left, Frame right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(Frame left, Frame right)
+        {
+            return !(left == right);
         }
     }
 }

@@ -19,18 +19,18 @@ namespace App.RayTrace
             _sampling = sampling;
         }
 
-        public ISceneAccessor Scene { get; }
-        public IRayTraceCamera Camera { get; }
-        public int ResolutionX { get; }
-        public int ResolutionY { get; }
+        private ISceneAccessor  Scene       { get; }
+        private IRayTraceCamera Camera      { get; }
+        private int             ResolutionX { get; }
+        private int             ResolutionY { get; }
 
         public Frame Trace()
         {
-            var frame = new Frame(ResolutionX, ResolutionY);
+            var pixels = new Pixel[ResolutionX, ResolutionY];
 
-            for (int y = 0; y < ResolutionY; y++)
+            for (var y = 0; y < ResolutionY ; y++)
             {
-                for (int x = 0; x < ResolutionX; x++)
+                for (var x = 0; x < ResolutionX; x++)
                 {
                     var color = Vector3.Zero;
                     for (var s = 0; s < _sampling; s++)
@@ -44,16 +44,18 @@ namespace App.RayTrace
                     }
 
                     color /= _sampling;
-                    frame.AddPixel(new Pixel(color), x, y);
+                    
+                    // y axis is up so we reverse y !
+                    pixels[x, ResolutionY - 1 - y] = new Pixel(color);
                 }
             }
 
-            return frame;
+            return new Frame(pixels);
         }
 
-        public Color ThrowRay(Ray ray, RayParameter minParameter, RayParameter maxParameter, Color color, int depth)
+        private Color ThrowRay(Ray ray, RayParameter minParameter, RayParameter maxParameter, Color color, int depth)
         {
-            bool hasHit = false;
+            var hasHit = false;
             var candidateParameter = maxParameter;
             var candidateHitpoint = new RayHitpoint();
             var candidateId = new EntityId();

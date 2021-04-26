@@ -1,4 +1,5 @@
-﻿using Dom.Raytrace;
+﻿
+using Dom.Raytrace;
 using Fou.Maths;
 using Materials;
 using System;

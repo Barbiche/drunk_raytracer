@@ -2,7 +2,7 @@
 
 namespace Inf.PPMWriter
 {
-    public interface IPPMWriter
+    public interface IPpmWriter
     {
         string Write(Frame frame, string filename);
     }
