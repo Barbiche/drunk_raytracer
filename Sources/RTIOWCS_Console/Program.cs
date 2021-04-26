@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
-using System.Threading.Tasks;
 using App.Cameras;
 using App.Engine;
 using App.Materials;
 using App.RayTrace;
 using App.Shapes;
+using Dom.Raytrace;
 using Dom.Shapes;
 using Inf.PPMWriter;
 using Materials;
@@ -15,20 +15,29 @@ namespace RTIOWCS_Console
 {
     internal static class Program
     {
-        private const int ResolutionHorizontal = 1600;
-        private const int ResolutionVertical   = 900;
+        private const int ResolutionHorizontal = 200;
+        private const int ResolutionVertical   = 100;
         private const int Sampling             = 10;
 
         private static void Main()
         {
-            var task = Task.Run(Run);
-            task.Wait();
+            var frame = GenerateFrame();
+            SaveFrame(frame);
         }
 
-        private static async void Run()
+        private static void SaveFrame(Frame frame)
+        {
+            var ppmWriter = new PpmWriter("C:\\Users\\gueth\\Desktop");
+            var filePath  = ppmWriter.Write(frame, "raytrace.ppm");
+
+            Console.WriteLine($"Successfully written to {filePath} !");
+        }
+
+        private static Frame GenerateFrame()
         {
             var entityIdFactory     = new EntityIdFactory();
             var sphereEntityFactory = new SphereEntityFactory(entityIdFactory);
+
             // Create the scene
             var entities = new HashSet<Entity>
             {
@@ -65,13 +74,12 @@ namespace RTIOWCS_Console
                                                     distanceToFocus);
 
 
-            var scene     = new Scene(entities, new Vector3(0.2f, 0.0f, 0.43f));
-            var tracer    = new BackgroundTracer(scene, camera, ResolutionHorizontal, ResolutionVertical, Sampling);
-            var frame     = tracer.Trace();
-            var ppmWriter = new PpmWriter("C:\\Users\\gueth\\Desktop");
-            var filePath  = ppmWriter.Write(frame, "raytrace.ppm");
+            var scene = new Scene(entities, new Vector3(0.2f, 0.0f, 0.43f));
+            var tracer =
+                new MonitoringTracer(
+                    new BackgroundTracer(scene, camera, ResolutionHorizontal, ResolutionVertical, Sampling));
 
-            Console.WriteLine($"Successfully written to {filePath} !");
+            return tracer.Trace();
         }
     }
 }

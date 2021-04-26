@@ -1,10 +1,13 @@
-﻿using Dom.Raytrace;
-using System.Threading.Tasks;
+﻿using System;
+using Dom.Raytrace;
 
 namespace App.RayTrace
 {
     public interface ITracer
     {
-        Frame Trace();
+        public int              ResolutionX    { get; }
+        public int              ResolutionY    { get; }
+        public IObservable<int> ProgressStream { get; }
+        Frame                   Trace();
     }
 }
