@@ -5,7 +5,7 @@ using App.Cameras;
 using App.Engine;
 using App.Materials;
 using App.RayTrace;
-using App.Shapes;
+using App.Shapes; 
 using Dom.Raytrace;
 using Dom.Shapes;
 using Inf.PPMWriter;
@@ -15,9 +15,9 @@ namespace RTIOWCS_Console
 {
     internal static class Program
     {
-        private const int ResolutionHorizontal = 200;
-        private const int ResolutionVertical   = 100;
-        private const int Sampling             = 10;
+        private const int ResolutionHorizontal = 1600;
+        private const int ResolutionVertical   = 900;
+        private const int Sampling             = 50;
 
         private static void Main()
         {
