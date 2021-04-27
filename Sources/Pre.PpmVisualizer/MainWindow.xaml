@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="PpmVisualizer" ResizeMode="NoResize" SizeToContent="WidthAndHeight">
-    <DockPanel x:Name="RootPanel">
-        <Image x:Name="Image" Stretch="Fill" Loaded="Image_Loaded" Unloaded="Image_Unloaded"/>
-    </DockPanel>
+        Title="PpmVisualizer" ResizeMode="CanMinimize" SizeToContent="WidthAndHeight">
+    <Grid>
+        <Image x:Name="Image" Stretch="Uniform" Loaded="Image_Loaded" Unloaded="Image_Unloaded"/>
+    </Grid>
 </Window>

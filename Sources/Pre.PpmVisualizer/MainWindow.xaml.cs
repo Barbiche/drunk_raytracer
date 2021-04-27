@@ -13,7 +13,8 @@ namespace PpmVisualizer
     /// </summary>
     public sealed partial class MainWindow : Window
     {
-        private MemoryStream _ms;
+        private          MemoryStream _ms;
+        private readonly IPpmReader   _ppmReader = new PpmReader();
 
         public MainWindow()
         {
@@ -22,7 +23,7 @@ namespace PpmVisualizer
 
         private void ReadFrame()
         {
-            var bitmap      = PpmReader.ReadBitmapFromPPM("raytrace.ppm");
+            var bitmap      = _ppmReader.Read("raytrace.ppm");
             var bitmapImage = new BitmapImage();
             bitmapImage.BeginInit();
             _ms = new MemoryStream();
@@ -30,11 +31,8 @@ namespace PpmVisualizer
             _ms.Seek(0, SeekOrigin.Begin);
             bitmapImage.StreamSource = _ms;
             bitmapImage.EndInit();
-            /*LoadFrame(bitmapImage);*/
 
             Image.BeginInit();
-            Image.Width  = bitmap.Width;
-            Image.Height = bitmap.Height;
             Image.Source = bitmapImage;
             Image.EndInit();
         }
