@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Numerics;
 using App.Cameras;
 using App.Engine;
 using App.Materials;
 using App.RayTrace;
-using App.Shapes; 
+using App.Shapes;
 using Dom.Raytrace;
 using Dom.Shapes;
 using Inf.PPMWriter;
@@ -15,20 +17,55 @@ namespace RTIOWCS_Console
 {
     internal static class Program
     {
-        private const int ResolutionHorizontal = 1600;
-        private const int ResolutionVertical   = 900;
-        private const int Sampling             = 50;
+        private const string PpmViewerPath =
+            @"C:\Users\gueth\source\repos\drunk_raytracer\Sources\Pre.PpmVisualizer\bin\Debug\net5.0-windows\Pre.PpmVisualizer.exe";
+
+        private const string OutputFolder =
+            @"C:\Users\gueth\source\repos\drunk_raytracer\Sources\Pre.PpmVisualizer\bin\Debug\net5.0-windows\";
+
+        private const string FileName             = "raytrace.ppm";
+        private const int    ResolutionHorizontal = 400;
+        private const int    ResolutionVertical   = 200;
+        private const int    Sampling             = 10;
 
         private static void Main()
         {
             var frame = GenerateFrame();
             SaveFrame(frame);
+            OpenFrame();
+        }
+
+        private static void OpenFrame()
+        {
+            if (File.Exists(PpmViewerPath))
+            {
+                var info = new ProcessStartInfo
+                {
+                    WindowStyle = ProcessWindowStyle.Normal,
+                    FileName    = PpmViewerPath,
+                    WorkingDirectory = Path.GetDirectoryName(PpmViewerPath)!
+                };
+                
+                using var proc = Process.Start(info);
+                
+                if (proc == null)
+                {
+                    throw new Exception("Process should not be null at this stage.");
+                }
+
+                Console.WriteLine("Viewer launched! Waiting for exit...");
+                proc.WaitForExit();
+            }
+            else
+            {
+                Console.WriteLine("Can't view the ppm directly, the viewer was not found.");
+            }
         }
 
         private static void SaveFrame(Frame frame)
         {
-            var ppmWriter = new PpmWriter("C:\\Users\\gueth\\Desktop");
-            var filePath  = ppmWriter.Write(frame, "raytrace.ppm");
+            var ppmWriter = new PpmWriter(OutputFolder);
+            var filePath  = ppmWriter.Write(frame, FileName);
 
             Console.WriteLine($"Successfully written to {filePath} !");
         }
