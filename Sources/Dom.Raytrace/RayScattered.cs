@@ -1,20 +1,21 @@
-﻿using Equ;
-using System;
+﻿using System;
+using Equ;
 
 namespace Dom.Raytrace
 {
     public struct RayScattered : IEquatable<RayScattered>
     {
-        private static readonly MemberwiseEqualityComparer<RayScattered> Comparer = MemberwiseEqualityComparer<RayScattered>.ByProperties;
+        private static readonly MemberwiseEqualityComparer<RayScattered> Comparer =
+            MemberwiseEqualityComparer<RayScattered>.ByProperties;
 
         public RayScattered(Ray scattered, Color color)
         {
             Scattered = scattered;
-            Color = color;
+            Color     = color;
         }
 
-        public Ray Scattered { get; }
-        public Color Color { get; }
+        public Ray   Scattered { get; }
+        public Color Color     { get; }
 
         public bool Equals(RayScattered other)
         {

@@ -1,6 +1,6 @@
-﻿using Dom.Camera;
+﻿using Dom.Cameras;
 using Dom.Raytrace;
-using Fou.Maths;
+using Fou.Utils;
 
 namespace App.Cameras
 {
@@ -15,10 +15,11 @@ namespace App.Cameras
 
         public Ray GetRay(float s, float t)
         {
-            var rd = Camera.LensRadius * Maths.GetRandomInDisk();
+            var rd     = Camera.LensRadius * Maths.GetRandomInDisk();
             var offset = Camera.U * rd.X + Camera.V * rd.Y;
             return new Ray(Camera.Origin + offset,
-                           Camera.LowerLeftCorner + s * Camera.Horizontal + t * Camera.Vertical - Camera.Origin - offset);
+                           Camera.LowerLeftCorner + s * Camera.Horizontal + t * Camera.Vertical - Camera.Origin -
+                           offset);
         }
     }
 }

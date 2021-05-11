@@ -1,7 +1,7 @@
-﻿using Equ;
-using System;
+﻿using System;
+using Equ;
 
-namespace Materials
+namespace Dom.Materials
 {
     public struct Dielectric : IEquatable<Dielectric>
     {
@@ -12,7 +12,8 @@ namespace Materials
             Index = index;
         }
 
-        private static readonly MemberwiseEqualityComparer<Dielectric> Comparer = MemberwiseEqualityComparer<Dielectric>.ByProperties;
+        private static readonly MemberwiseEqualityComparer<Dielectric> Comparer =
+            MemberwiseEqualityComparer<Dielectric>.ByProperties;
 
         public bool Equals(Dielectric other)
         {

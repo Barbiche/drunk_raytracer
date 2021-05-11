@@ -13,8 +13,8 @@ namespace PpmVisualizer
     /// </summary>
     public sealed partial class MainWindow : Window
     {
-        private          MemoryStream _ms;
         private readonly IPpmReader   _ppmReader = new PpmReader();
+        private          MemoryStream _ms;
 
         public MainWindow()
         {

@@ -3,9 +3,9 @@ using System.Numerics;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using App.Cameras;
-using App.Engine;
 using Dom.Raytrace;
-using Fou.Maths;
+using EnsureThat;
+using Fou.Utils;
 
 namespace App.RayTrace
 {
@@ -14,9 +14,12 @@ namespace App.RayTrace
         private readonly ISubject<int> _progressSubject = new Subject<int>();
         private readonly int           _sampling;
 
-        public BackgroundTracer(ISceneAccessor scene, IRayTraceCamera camera, int resolutionX, int resolutionY,
-                                int            sampling)
+        public BackgroundTracer(Scene scene, IRayTraceCamera camera, int resolutionX, int resolutionY,
+                                int   sampling)
         {
+            EnsureArg.IsNotNull(scene, nameof(scene));
+            EnsureArg.IsNotNull(camera, nameof(camera));
+
             Scene       = scene;
             Camera      = camera;
             ResolutionX = resolutionX;
@@ -24,7 +27,7 @@ namespace App.RayTrace
             _sampling   = sampling;
         }
 
-        private ISceneAccessor  Scene       { get; }
+        private Scene           Scene       { get; }
         private IRayTraceCamera Camera      { get; }
         public  int             ResolutionX { get; }
         public  int             ResolutionY { get; }
@@ -56,7 +59,7 @@ namespace App.RayTrace
                     // y axis is up so we reverse y !
                     pixels[x, ResolutionY - 1 - y] = new Pixel(color);
                 }
-                
+
                 _progressSubject.OnNext(y * ResolutionX);
             }
 
@@ -67,33 +70,19 @@ namespace App.RayTrace
 
         private Color ThrowRay(Ray ray, RayParameter minParameter, RayParameter maxParameter, Color color, int depth)
         {
-            var hasHit             = false;
-            var candidateParameter = maxParameter;
-            var candidateHitpoint  = new RayHitpoint();
-            var candidateId        = new EntityId();
-            foreach (var hitable in Scene.Hitables)
-            {
-                var contact = hitable.Value.TryHit(ray, minParameter, maxParameter);
-                if (contact.HasValue && contact.Value.T < candidateParameter)
-                {
-                    candidateParameter = contact.Value.T;
-                    candidateHitpoint  = contact;
-                    candidateId        = hitable.Key;
-                    hasHit             = true;
-                }
-            }
-
-            if (hasHit)
+            var hitPoint = Scene.TryHit(ray, minParameter, maxParameter);
+            if (hitPoint.HasValue)
             {
                 // Scatter
-                var rayScattered = Scene.Scatterables[candidateId]
-                    .Scatter(ray, candidateHitpoint, new Color(color.Value));
+                var rayScattered = Scene.Scatterables[hitPoint.Value.Id]
+                    .Scatter(ray, hitPoint.Value.Hitpoint, new Color(color.Value));
                 if (++depth > 50)
                 {
                     return new Color(new Vector3(0.0f));
                 }
 
-                return ThrowRay(rayScattered.Scattered, minParameter, candidateParameter, rayScattered.Color, depth);
+                return ThrowRay(rayScattered.Scattered, minParameter, hitPoint.Value.Hitpoint.T, rayScattered.Color,
+                                depth);
             }
 
             return color;

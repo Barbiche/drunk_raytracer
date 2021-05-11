@@ -1,34 +1,22 @@
-﻿using Dom.Raytrace;
-using Fou.Maths;
-using Materials;
-using System.Numerics;
+﻿using Dom.Materials;
+using Dom.Raytrace;
 
 namespace App.Materials
 {
-    public class ScatterableMetal : IScatterable
+    public sealed class ScatterableMetal : IScatterable
     {
-        private readonly Metal _material;
+        private readonly IScatterableComputer _computer;
+        private readonly Metal                _metal;
 
-        public ScatterableMetal(Metal material)
+        public ScatterableMetal(Metal metal, IScatterableComputer computer)
         {
-            _material = material;
+            _metal    = metal;
+            _computer = computer;
         }
 
         public RayScattered Scatter(Ray ray, RayHitpoint hitpoint, Color rayColor)
         {
-            var reflected = Maths.Reflect(Vector3.Normalize(ray.Direction), hitpoint.Normal);
-            var newRay = new Ray(hitpoint.Point, reflected + Maths.GetRandomInSphere() * _material.Fuzz);
-            Color newColor;
-            if (Vector3.Dot(newRay.Direction, hitpoint.Normal) > 0)
-            {
-                newColor = new Color(rayColor.Value * _material.Albedo);
-            }
-            else
-            {
-                newColor = new Color(Vector3.Zero);
-            }
-
-            return new RayScattered(newRay, newColor);
+            return _computer.Scatter(_metal, ray, hitpoint, rayColor);
         }
     }
 }

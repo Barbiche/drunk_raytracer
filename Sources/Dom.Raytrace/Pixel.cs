@@ -1,6 +1,6 @@
-﻿using Equ;
-using System;
+﻿using System;
 using System.Numerics;
+using Equ;
 
 namespace Dom.Raytrace
 {
@@ -15,11 +15,10 @@ namespace Dom.Raytrace
 
         public Pixel(Vector3 rgb)
         {
-            rgb = new Vector3((float)Math.Sqrt(rgb.X), (float)Math.Sqrt(rgb.Y), (float)Math.Sqrt(rgb.Z));
-            R = (int)(255.99 * rgb.X);
-            G = (int)(255.99 * rgb.Y);
-            B = (int)(255.99 * rgb.Z);
-
+            rgb = new Vector3((float) Math.Sqrt(rgb.X), (float) Math.Sqrt(rgb.Y), (float) Math.Sqrt(rgb.Z));
+            R   = (int) (255.99 * rgb.X);
+            G   = (int) (255.99 * rgb.Y);
+            B   = (int) (255.99 * rgb.Z);
         }
 
         public int R { get; }
@@ -28,7 +27,9 @@ namespace Dom.Raytrace
 
         public int B { get; }
 
-        private static readonly MemberwiseEqualityComparer<Pixel> Comparer = MemberwiseEqualityComparer<Pixel>.ByProperties;
+        private static readonly MemberwiseEqualityComparer<Pixel> Comparer =
+            MemberwiseEqualityComparer<Pixel>.ByProperties;
+
         public bool Equals(Pixel other)
         {
             return Comparer.Equals(this, other);

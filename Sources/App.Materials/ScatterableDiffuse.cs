@@ -1,24 +1,22 @@
-﻿using Dom.Raytrace;
-using Fou.Maths;
-using Materials;
+﻿using Dom.Materials;
+using Dom.Raytrace;
 
 namespace App.Materials
 {
-    public class ScatterableDiffuse : IScatterable
+    public sealed class ScatterableDiffuse : IScatterable
     {
-        private readonly Diffuse _material;
+        private readonly IScatterableComputer _computer;
+        private readonly Diffuse              _diffuse;
 
-        public ScatterableDiffuse(Diffuse material)
+        public ScatterableDiffuse(Diffuse diffuse, IScatterableComputer computer)
         {
-            _material = material;
+            _diffuse  = diffuse;
+            _computer = computer;
         }
 
         public RayScattered Scatter(Ray ray, RayHitpoint hitpoint, Color rayColor)
         {
-            var target = hitpoint.Point + hitpoint.Normal + Maths.GetRandomInSphere();
-            var newRay = new Ray(hitpoint.Point, target - hitpoint.Point);
-            var newColor = new Color(rayColor.Value * _material.Albedo);
-            return new RayScattered(newRay, newColor);
+            return _computer.Scatter(_diffuse, ray, hitpoint, rayColor);
         }
     }
 }

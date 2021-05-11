@@ -1,5 +1,5 @@
-﻿using Dom.Raytrace;
-using System.IO;
+﻿using System.IO;
+using Dom.Raytrace;
 
 namespace Inf.PPMWriter
 {

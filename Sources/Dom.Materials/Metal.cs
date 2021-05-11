@@ -1,8 +1,8 @@
-﻿using Equ;
-using System;
+﻿using System;
 using System.Numerics;
+using Equ;
 
-namespace Materials
+namespace Dom.Materials
 {
     public struct Metal : IEquatable<Metal>
     {
@@ -13,10 +13,11 @@ namespace Materials
         public Metal(Vector3 albedo, float fuzz)
         {
             Albedo = albedo;
-            Fuzz = fuzz;
+            Fuzz   = fuzz;
         }
 
-        private static readonly MemberwiseEqualityComparer<Metal> Comparer = MemberwiseEqualityComparer<Metal>.ByProperties;
+        private static readonly MemberwiseEqualityComparer<Metal> Comparer =
+            MemberwiseEqualityComparer<Metal>.ByProperties;
 
         public bool Equals(Metal other)
         {

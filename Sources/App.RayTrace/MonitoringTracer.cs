@@ -33,7 +33,7 @@ namespace App.RayTrace
             clock.Start();
             var frame = _tracer.Trace();
             clock.Stop();
-            
+
             Console.WriteLine("Frame finished!");
             Console.WriteLine($"Elapsed time: {clock.Elapsed}.");
             return frame;

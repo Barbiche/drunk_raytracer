@@ -2,24 +2,31 @@
 {
     public class Option<T>
     {
-        public T Value { get; }
-        public bool HasValue { get; }
-
         public Option(T value)
         {
-            Value = value;
+            Value    = value;
             HasValue = true;
         }
 
         private Option()
         {
-            Value = default;
+            Value    = default;
             HasValue = false;
         }
 
-        public static implicit operator T(Option<T> option) => option.Value;
-        public static explicit operator Option<T>(T value) => new Option<T>(value);
+        public T    Value    { get; }
+        public bool HasValue { get; }
 
         public static Option<T> Empty => new Option<T>();
+
+        public static implicit operator T(Option<T> option)
+        {
+            return option.Value;
+        }
+
+        public static explicit operator Option<T>(T value)
+        {
+            return new Option<T>(value);
+        }
     }
 }

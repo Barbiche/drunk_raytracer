@@ -1,6 +1,6 @@
-﻿using Equ;
-using System;
+﻿using System;
 using System.Numerics;
+using Equ;
 
 namespace Dom.Raytrace
 {
@@ -10,7 +10,9 @@ namespace Dom.Raytrace
         {
             Value = color;
         }
-        private static readonly MemberwiseEqualityComparer<Color> Comparer = MemberwiseEqualityComparer<Color>.ByProperties;
+
+        private static readonly MemberwiseEqualityComparer<Color> Comparer =
+            MemberwiseEqualityComparer<Color>.ByProperties;
 
         public Vector3 Value { get; }
 

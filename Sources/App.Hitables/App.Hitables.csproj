@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\App.Engine\App.Engine.csproj" />
+      <ProjectReference Include="..\Dom.Raytrace\Dom.Raytrace.csproj" />
+      <ProjectReference Include="..\Fou.Maths\Fou.Maths.csproj" />
+      <ProjectReference Include="..\Fou.Utils\Fou.Utils.csproj" />
+    </ItemGroup>
+
+</Project>

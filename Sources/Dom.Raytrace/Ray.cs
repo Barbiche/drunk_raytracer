@@ -1,17 +1,17 @@
-﻿using Equ;
-using System;
+﻿using System;
 using System.Numerics;
+using Equ;
 
 namespace Dom.Raytrace
 {
     public readonly struct Ray : IEquatable<Ray>
     {
-        public Vector3 Origin { get; }
+        public Vector3 Origin    { get; }
         public Vector3 Direction { get; }
 
         public Ray(Vector3 origin, Vector3 direction)
         {
-            Origin = origin;
+            Origin    = origin;
             Direction = direction;
         }
 
@@ -21,6 +21,7 @@ namespace Dom.Raytrace
         }
 
         private static readonly MemberwiseEqualityComparer<Ray> Comparer = MemberwiseEqualityComparer<Ray>.ByProperties;
+
         public bool Equals(Ray other)
         {
             return Comparer.Equals(this, other);

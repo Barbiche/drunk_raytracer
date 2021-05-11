@@ -1,8 +1,7 @@
-﻿using Fou.Utils;
-using System;
+﻿using System;
 using System.Numerics;
 
-namespace Fou.Maths
+namespace Fou.Utils
 {
     public static class Maths
     {
@@ -28,13 +27,14 @@ namespace Fou.Maths
         /// <returns>Refracted direction, Vector null if not possible</returns>
         public static Option<Vector3> Refract(Vector3 v, Vector3 n, float niOverNt)
         {
-            var uv = Vector3.Normalize(v);
-            var dt = Vector3.Dot(uv, n);
+            var uv           = Vector3.Normalize(v);
+            var dt           = Vector3.Dot(uv, n);
             var discriminant = 1.0f - niOverNt * niOverNt * (1 - dt * dt);
             if (discriminant > 0)
             {
-                return new Option<Vector3>(niOverNt * (uv - n * dt) - n * (float)Math.Sqrt(discriminant));
+                return new Option<Vector3>(niOverNt * (uv - n * dt) - n * (float) Math.Sqrt(discriminant));
             }
+
             return new Option<Vector3>(new Vector3(0.0f));
         }
 
@@ -43,8 +43,8 @@ namespace Fou.Maths
             Vector3 p;
             do
             {
-                p = 2.0f * new Vector3((float)RandomGenerator.NextDouble(), (float)RandomGenerator.NextDouble(),
-                        (float)RandomGenerator.NextDouble()) - Vector3.One;
+                p = 2.0f * new Vector3((float) RandomGenerator.NextDouble(), (float) RandomGenerator.NextDouble(),
+                                       (float) RandomGenerator.NextDouble()) - Vector3.One;
             } while (p.LengthSquared() >= 1.0f);
 
             return p;
@@ -63,7 +63,14 @@ namespace Fou.Maths
 
         public static float Rand()
         {
-            return (float)RandomGenerator.NextDouble();
+            return (float) RandomGenerator.NextDouble();
+        }
+
+        public static void Swap(ref float x, ref float y)
+        {
+            var temp = x;
+            x = y;
+            y = temp;
         }
     }
 }

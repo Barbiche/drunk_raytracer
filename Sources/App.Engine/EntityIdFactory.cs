@@ -1,6 +1,6 @@
 ﻿namespace App.Engine
 {
-    public class EntityIdFactory : IEntityIdFactory
+    public sealed class EntityIdFactory : IEntityIdFactory
     {
         private long _idCount;
 

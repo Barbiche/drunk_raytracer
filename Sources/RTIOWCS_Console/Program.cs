@@ -1,17 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Numerics;
 using App.Cameras;
 using App.Engine;
+using App.Hitables.Computers;
 using App.Materials;
 using App.RayTrace;
-using App.Shapes;
+using Dom.Materials;
 using Dom.Raytrace;
 using Dom.Shapes;
 using Inf.PPMWriter;
-using Materials;
 
 namespace RTIOWCS_Console
 {
@@ -41,13 +40,13 @@ namespace RTIOWCS_Console
             {
                 var info = new ProcessStartInfo
                 {
-                    WindowStyle = ProcessWindowStyle.Normal,
-                    FileName    = PpmViewerPath,
+                    WindowStyle      = ProcessWindowStyle.Normal,
+                    FileName         = PpmViewerPath,
                     WorkingDirectory = Path.GetDirectoryName(PpmViewerPath)!
                 };
-                
+
                 using var proc = Process.Start(info);
-                
+
                 if (proc == null)
                 {
                     throw new Exception("Process should not be null at this stage.");
@@ -72,33 +71,23 @@ namespace RTIOWCS_Console
 
         private static Frame GenerateFrame()
         {
-            var entityIdFactory     = new EntityIdFactory();
-            var sphereEntityFactory = new SphereEntityFactory(entityIdFactory);
+            var entityIdFactory       = new EntityIdFactory();
+            var sceneBuilder          = new SceneBuilder(new Vector3(0.2f, 0.0f, 0.43f));
+            var scatterableComputer   = new ScatterableComputer();
+            var hitableSphereComputer = new HitableSphereComputer();
 
             // Create the scene
-            var entities = new HashSet<Entity>
-            {
-                sphereEntityFactory.Create(new Vector3(0.725f, 0.5f, 0.725f), new Sphere(0.5f),
-                                           new ScatterableDiffuse(new Diffuse(new Vector3(1.0f, 0.0f, 0.0f)))),
-                sphereEntityFactory.Create(new Vector3(0.725f, 0.5f, -0.725f), new Sphere(0.5f),
-                                           new ScatterableDiffuse(new Diffuse(new Vector3(0.0f, 1.0f, 0.0f)))),
-                sphereEntityFactory.Create(new Vector3(-0.725f, 0.5f, 0.725f), new Sphere(0.5f),
-                                           new ScatterableDiffuse(new Diffuse(new Vector3(0.0f, 0.0f, 1.0f)))),
-                sphereEntityFactory.Create(new Vector3(-0.725f, 0.5f, -0.725f), new Sphere(0.5f),
-                                           new ScatterableDiffuse(new Diffuse(new Vector3(1.0f, 1.0f, 0.0f)))),
-                sphereEntityFactory.Create(new Vector3(0.0f, 0.5f, 3.0f), new Sphere(0.5f),
-                                           new ScatterableDielectric(new Dielectric(1.5f))),
-                sphereEntityFactory.Create(new Vector3(3.0f, 0.5f, 0.0f), new Sphere(0.5f),
-                                           new ScatterableDielectric(new Dielectric(1.5f))),
-                sphereEntityFactory.Create(new Vector3(0.0f, 0.5f, -3.0f), new Sphere(0.5f),
-                                           new ScatterableDielectric(new Dielectric(1.5f))),
-                sphereEntityFactory.Create(new Vector3(-3.0f, 0.5f, 0.0f), new Sphere(0.5f),
-                                           new ScatterableDielectric(new Dielectric(1.5f))),
-                sphereEntityFactory.Create(new Vector3(0.0f, 0.5f, 0.0f), new Sphere(0.5f),
-                                           new ScatterableMetal(new Metal(new Vector3(0.0f, 1.0f, 1.0f), 0.1f))),
-                sphereEntityFactory.Create(new Vector3(0.0f, -200.0f, 0.0f), new Sphere(200f),
-                                           new ScatterableDiffuse(new Diffuse(new Vector3(0.5f, 0.5f, 0.5f))))
-            };
+            var elementBuilderFactory =
+                new ElementBuilderFactory(entityIdFactory, hitableSphereComputer, scatterableComputer);
+
+            sceneBuilder.AddElement(elementBuilderFactory.Create()
+                                        .WithPosition(new Position(new Vector3(0.725f, 0.5f, 0.725f)))
+                                        .WithShape(new Sphere(0.5f))
+                                        .WithMaterial(new Diffuse(new Vector3(0.0f, 1.0f, 0.0f))).Build());
+            sceneBuilder.AddElement(elementBuilderFactory.Create()
+                                        .WithPosition(new Position(new Vector3(0.0f, -200.0f, 0.0f)))
+                                        .WithShape(new Sphere(200f))
+                                        .WithMaterial(new Diffuse(new Vector3(0.5f, 0.5f, 0.5f))).Build());
 
             var cameraFactory = new CameraFactory();
 
@@ -111,7 +100,7 @@ namespace RTIOWCS_Console
                                                     distanceToFocus);
 
 
-            var scene = new Scene(entities, new Vector3(0.2f, 0.0f, 0.43f));
+            var scene = sceneBuilder.Build();
             var tracer =
                 new MonitoringTracer(
                     new BackgroundTracer(scene, camera, ResolutionHorizontal, ResolutionVertical, Sampling));

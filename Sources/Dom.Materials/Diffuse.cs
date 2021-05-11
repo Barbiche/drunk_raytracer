@@ -1,8 +1,8 @@
-﻿using Equ;
-using System;
+﻿using System;
 using System.Numerics;
+using Equ;
 
-namespace Materials
+namespace Dom.Materials
 {
     public struct Diffuse : IEquatable<Diffuse>
     {
@@ -13,7 +13,8 @@ namespace Materials
             Albedo = albedo;
         }
 
-        private static readonly MemberwiseEqualityComparer<Diffuse> Comparer = MemberwiseEqualityComparer<Diffuse>.ByProperties;
+        private static readonly MemberwiseEqualityComparer<Diffuse> Comparer =
+            MemberwiseEqualityComparer<Diffuse>.ByProperties;
 
         public bool Equals(Diffuse other)
         {

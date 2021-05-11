@@ -1,7 +1,7 @@
 ﻿using Dom.Raytrace;
 using Fou.Utils;
 
-namespace App.Shapes
+namespace App.Hitables
 {
     public interface IHitable
     {
