@@ -18,10 +18,7 @@ namespace Fou.Utils
 
             Console.Write("[");
             var p = (int) (percent / 10f + .5f);
-            for (var i = 0; i < 10; ++i)
-            {
-                Console.Write(i >= p ? ' ' : Block);
-            }
+            for (var i = 0; i < 10; ++i) Console.Write(i >= p ? ' ' : Block);
 
             Console.Write("] {0,3:##0}%", percent);
         }

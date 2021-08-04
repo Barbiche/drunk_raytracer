@@ -13,9 +13,7 @@ namespace Pre.PpmVisualizer
             // header
             var header = reader.ReadLine();
             if (header == null || header != "P3")
-            {
                 throw new NotSupportedException($"Provided ppm file {ppmPath} is not ASCII.");
-            }
 
             // size
             int width;
@@ -38,10 +36,7 @@ namespace Pre.PpmVisualizer
             if (l255 != null)
             {
                 maxSize = int.Parse(l255);
-                if (maxSize != 255)
-                {
-                    throw new NotSupportedException("Support only 255 max pixel value.");
-                }
+                if (maxSize != 255) throw new NotSupportedException("Support only 255 max pixel value.");
             }
             else
             {
@@ -50,15 +45,13 @@ namespace Pre.PpmVisualizer
 
             var bitmap = new Bitmap(width, height);
             for (var y = 0; y < height; y++)
+            for (var x = 0; x < width; x++)
             {
-                for (var x = 0; x < width; x++)
-                {
-                    var line = reader.ReadLine();
-                    if (line == null) continue;
-                    var split = line.Split(" ");
-                    bitmap.SetPixel(
-                        x, y, Color.FromArgb(int.Parse(split[0]), int.Parse(split[1]), int.Parse(split[2])));
-                }
+                var line = reader.ReadLine();
+                if (line == null) continue;
+                var split = line.Split(" ");
+                bitmap.SetPixel(
+                    x, y, Color.FromArgb(int.Parse(split[0]), int.Parse(split[1]), int.Parse(split[2])));
             }
 
             return bitmap;

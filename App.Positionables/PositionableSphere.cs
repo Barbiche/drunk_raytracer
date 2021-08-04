@@ -5,7 +5,7 @@ using Dom.Shapes;
 using EnsureThat;
 using Equ;
 
-namespace App.Shapes
+namespace App.Positionables
 {
     public readonly struct PositionableSphere : IEquatable<PositionableSphere>, IPositionable
     {

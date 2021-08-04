@@ -6,6 +6,7 @@ using App.Cameras;
 using App.Engine;
 using App.Hitables.Computers;
 using App.Materials;
+using App.Positionables;
 using App.RayTrace;
 using Dom.Materials;
 using Dom.Raytrace;
@@ -47,10 +48,7 @@ namespace RTIOWCS_Console
 
                 using var proc = Process.Start(info);
 
-                if (proc == null)
-                {
-                    throw new Exception("Process should not be null at this stage.");
-                }
+                if (proc == null) throw new Exception("Process should not be null at this stage.");
 
                 Console.WriteLine("Viewer launched! Waiting for exit...");
                 proc.WaitForExit();

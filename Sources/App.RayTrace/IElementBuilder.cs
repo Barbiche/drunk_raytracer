@@ -3,7 +3,7 @@ using App.Engine;
 using App.Hitables;
 using App.Hitables.Computers;
 using App.Materials;
-using App.Shapes;
+using App.Positionables;
 using Dom.Materials;
 using Dom.Shapes;
 using Fou.Utils;
@@ -70,11 +70,9 @@ namespace App.RayTrace
         public Element Build()
         {
             if (_shape.HasValue && _positionable.HasValue && _scatterable.HasValue)
-            {
                 return new Element(
                     _id, new HitableSphere(new PositionableSphere(_positionable.Value, _shape.Value), _hitableComputer),
                     _scatterable.Value, _positionable.Value);
-            }
 
             throw new ApplicationException("One part of the element is not specified.");
         }

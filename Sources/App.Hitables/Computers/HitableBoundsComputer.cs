@@ -20,17 +20,11 @@ namespace App.Hitables.Computers
                 var invRayDir = 1                                                       / ray.Direction.Enumerate(i);
                 var t0        = (bounds.Minimum.Enumerate(i) - ray.Origin.Enumerate(i)) * invRayDir;
                 var t1        = (bounds.Maximum.Enumerate(i) - ray.Origin.Enumerate(i)) * invRayDir;
-                if (invRayDir < 0.0f)
-                {
-                    Maths.Swap(ref t0, ref t1);
-                }
+                if (invRayDir < 0.0f) Maths.Swap(ref t0, ref t1);
 
                 tMin = t0 > tMin ? t0 : tMin;
                 tMax = t1 < tMax ? t1 : tMax;
-                if (t0 > t1)
-                {
-                    return false;
-                }
+                if (t0 > t1) return false;
             }
 
             return true;

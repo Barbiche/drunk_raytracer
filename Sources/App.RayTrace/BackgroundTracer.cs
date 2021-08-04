@@ -76,10 +76,7 @@ namespace App.RayTrace
                 // Scatter
                 var rayScattered = Scene.Scatterables[hitPoint.Value.Id]
                     .Scatter(ray, hitPoint.Value.Hitpoint, new Color(color.Value));
-                if (++depth > 50)
-                {
-                    return new Color(new Vector3(0.0f));
-                }
+                if (++depth > 50) return new Color(new Vector3(0.0f));
 
                 return ThrowRay(rayScattered.Scattered, minParameter, hitPoint.Value.Hitpoint.T, rayScattered.Color,
                                 depth);

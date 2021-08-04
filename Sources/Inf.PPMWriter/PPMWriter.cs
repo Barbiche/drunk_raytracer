@@ -26,12 +26,8 @@ namespace Inf.PPMWriter
             file.WriteLine(CreateHeader(frame));
 
             for (var y = 0; y < ResolutionY; y++)
-            {
-                for (var x = 0; x < ResolutionX; x++)
-                {
-                    file.WriteLine(CreatePixelLine(frame, x, y));
-                }
-            }
+            for (var x = 0; x < ResolutionX; x++)
+                file.WriteLine(CreatePixelLine(frame, x, y));
 
             file.Close();
 

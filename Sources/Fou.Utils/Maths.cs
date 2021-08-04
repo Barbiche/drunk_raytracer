@@ -31,9 +31,7 @@ namespace Fou.Utils
             var dt           = Vector3.Dot(uv, n);
             var discriminant = 1.0f - niOverNt * niOverNt * (1 - dt * dt);
             if (discriminant > 0)
-            {
                 return new Option<Vector3>(niOverNt * (uv - n * dt) - n * (float) Math.Sqrt(discriminant));
-            }
 
             return new Option<Vector3>(new Vector3(0.0f));
         }

@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Numerics;
+using App.Engine;
 using Equ;
 
-namespace App.Engine
+namespace App.Positionables
 {
-    public interface IPositionable
-    {
-        Vector3 Translation { get; }
-    }
-
     public readonly struct Position : IEquatable<Position>, IPositionable
     {
         public Position(Vector3 translation)

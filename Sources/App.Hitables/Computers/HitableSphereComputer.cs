@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Numerics;
-using App.Shapes;
+using App.Positionables;
 using Dom.Raytrace;
 using Fou.Utils;
 
@@ -19,10 +19,7 @@ namespace App.Hitables.Computers
                     sphere.Radius * sphere.Radius;
             var discriminant = b * b - 4 * a * c;
 
-            if (discriminant < 0)
-            {
-                return Option<RayHitpoint>.Empty;
-            }
+            if (discriminant < 0) return Option<RayHitpoint>.Empty;
 
             var temp = new RayParameter((-b - (float) Math.Sqrt(discriminant)) / (2.0f * a));
             if (temp < topBoundary.Value && temp > bottomBoundary.Value)
