@@ -41,7 +41,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fou.Maths", "Sources\Fou.Ma
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Hitables", "Sources\App.Hitables\App.Hitables.csproj", "{C7EFCAD0-20F9-4EDA-91BA-285EE9A03D45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Positionables", "App.Positionables\App.Positionables.csproj", "{6E269E84-D8EC-4EF1-9208-9033F81648E9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Positionables", "Sources\App.Positionables\App.Positionables.csproj", "{6E269E84-D8EC-4EF1-9208-9033F81648E9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
