@@ -15,7 +15,6 @@
     <ProjectReference Include="..\App.Engine\App.Engine.csproj" />
     <ProjectReference Include="..\App.Hitables\App.Hitables.csproj" />
     <ProjectReference Include="..\App.Materials\App.Materials.csproj" />
-    <ProjectReference Include="..\App.Shapes\App.Shapes.csproj" />
     <ProjectReference Include="..\Dom.Raytrace\Dom.Raytrace.csproj" />
   </ItemGroup>
 

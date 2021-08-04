@@ -5,7 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\App.Positionables\App.Positionables.csproj" />
+      <ProjectReference Include="..\App.Positionables\App.Positionables.csproj" />
       <ProjectReference Include="..\App.Engine\App.Engine.csproj" />
       <ProjectReference Include="..\Dom.Raytrace\Dom.Raytrace.csproj" />
       <ProjectReference Include="..\Fou.Maths\Fou.Maths.csproj" />

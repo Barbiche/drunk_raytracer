@@ -18,10 +18,10 @@ namespace RTIOWCS_Console
     internal static class Program
     {
         private const string PpmViewerPath =
-            @"C:\Users\gueth\source\repos\drunk_raytracer\Sources\Pre.PpmVisualizer\bin\Debug\net5.0-windows\Pre.PpmVisualizer.exe";
+            @"C:\Users\gueth\source\repos\RTIOWCS\Sources\Pre.PpmVisualizer\bin\Debug\net5.0-windows\Pre.PpmVisualizer.exe";
 
         private const string OutputFolder =
-            @"C:\Users\gueth\source\repos\drunk_raytracer\Sources\Pre.PpmVisualizer\bin\Debug\net5.0-windows\";
+            @"C:\Users\gueth\source\repos\RTIOWCS\Sources\Pre.PpmVisualizer\bin\Debug\net5.0-windows\";
 
         private const string FileName             = "raytrace.ppm";
         private const int    ResolutionHorizontal = 400;

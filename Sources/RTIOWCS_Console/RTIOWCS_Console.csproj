@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\App.RayTrace\App.RayTrace.csproj" />
-    <ProjectReference Include="..\App.Shapes\App.Shapes.csproj" />
     <ProjectReference Include="..\Inf.PPMWriter\Inf.PPMWriter.csproj" />
   </ItemGroup>
 

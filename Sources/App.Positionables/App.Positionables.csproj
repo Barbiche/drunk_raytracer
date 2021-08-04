@@ -9,7 +9,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Sources\Dom.Shapes\Dom.Shapes.csproj" />
+      <ProjectReference Include="..\Dom.Shapes\Dom.Shapes.csproj" />
     </ItemGroup>
 
 </Project>
