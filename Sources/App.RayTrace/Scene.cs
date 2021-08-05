@@ -4,6 +4,7 @@ using System.Numerics;
 using App.Engine;
 using App.Hitables;
 using App.Materials;
+using App.Positionables;
 using Dom.Raytrace;
 using EnsureThat;
 using Fou.Utils;

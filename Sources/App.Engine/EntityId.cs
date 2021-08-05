@@ -5,7 +5,7 @@ namespace App.Engine
 {
     public readonly struct EntityId : IEquatable<EntityId>
     {
-        public EntityId(long id)
+        public EntityId(Guid id)
         {
             Id = id;
         }
@@ -13,7 +13,7 @@ namespace App.Engine
         private static readonly MemberwiseEqualityComparer<EntityId> Comparer =
             MemberwiseEqualityComparer<EntityId>.ByProperties;
 
-        private long Id { get; }
+        private Guid Id { get; }
 
         public bool Equals(EntityId other)
         {

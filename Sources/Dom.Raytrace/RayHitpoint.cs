@@ -4,8 +4,13 @@ using Equ;
 
 namespace Dom.Raytrace
 {
-    public struct RayHitpoint : IEquatable<RayHitpoint>
+    public readonly struct RayHitpoint : IEquatable<RayHitpoint>
     {
+        public override int GetHashCode()
+        {
+            return Comparer.GetHashCode(this);
+        }
+
         private static readonly MemberwiseEqualityComparer<RayHitpoint> Comparer =
             MemberwiseEqualityComparer<RayHitpoint>.ByProperties;
 
@@ -23,6 +28,21 @@ namespace Dom.Raytrace
         public bool Equals(RayHitpoint other)
         {
             return Comparer.Equals(this, other);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is RayHitpoint hitpoint && Equals(hitpoint);
+        }
+
+        public static bool operator ==(RayHitpoint left, RayHitpoint right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(RayHitpoint left, RayHitpoint right)
+        {
+            return !(left == right);
         }
     }
 }

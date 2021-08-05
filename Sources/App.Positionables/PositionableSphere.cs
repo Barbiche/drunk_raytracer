@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Numerics;
-using App.Engine;
 using Dom.Shapes;
 using EnsureThat;
 using Equ;

@@ -4,8 +4,13 @@ using Equ;
 
 namespace Dom.Cameras
 {
-    public struct Camera : IEquatable<Camera>
+    public readonly struct Camera : IEquatable<Camera>
     {
+        public override int GetHashCode()
+        {
+            return Comparer.GetHashCode(this);
+        }
+
         private static readonly MemberwiseEqualityComparer<Camera> Comparer =
             MemberwiseEqualityComparer<Camera>.ByProperties;
 
@@ -32,6 +37,21 @@ namespace Dom.Cameras
         public bool Equals(Camera other)
         {
             return Comparer.Equals(this, other);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Camera camera && Equals(camera);
+        }
+
+        public static bool operator ==(Camera left, Camera right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(Camera left, Camera right)
+        {
+            return !(left == right);
         }
     }
 }

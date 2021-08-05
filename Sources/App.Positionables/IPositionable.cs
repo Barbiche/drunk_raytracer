@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace App.Engine
+namespace App.Positionables
 {
     public interface IPositionable
     {

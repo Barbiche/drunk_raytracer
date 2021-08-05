@@ -3,8 +3,13 @@ using Equ;
 
 namespace Dom.Raytrace
 {
-    public struct RayScattered : IEquatable<RayScattered>
+    public readonly struct RayScattered : IEquatable<RayScattered>
     {
+        public override int GetHashCode()
+        {
+            return Comparer.GetHashCode(this);
+        }
+
         private static readonly MemberwiseEqualityComparer<RayScattered> Comparer =
             MemberwiseEqualityComparer<RayScattered>.ByProperties;
 
@@ -20,6 +25,21 @@ namespace Dom.Raytrace
         public bool Equals(RayScattered other)
         {
             return Comparer.Equals(this, other);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is RayScattered scattered && Equals(scattered);
+        }
+
+        public static bool operator ==(RayScattered left, RayScattered right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(RayScattered left, RayScattered right)
+        {
+            return !(left == right);
         }
     }
 }

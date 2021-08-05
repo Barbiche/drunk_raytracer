@@ -2,6 +2,7 @@
 using App.Engine;
 using App.Hitables;
 using App.Materials;
+using App.Positionables;
 
 namespace App.RayTrace
 {

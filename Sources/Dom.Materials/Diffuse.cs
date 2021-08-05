@@ -4,8 +4,13 @@ using Equ;
 
 namespace Dom.Materials
 {
-    public struct Diffuse : IEquatable<Diffuse>
+    public readonly struct Diffuse : IEquatable<Diffuse>
     {
+        public override int GetHashCode()
+        {
+            return Comparer.GetHashCode(this);
+        }
+
         public Vector3 Albedo { get; }
 
         public Diffuse(Vector3 albedo)
@@ -19,6 +24,21 @@ namespace Dom.Materials
         public bool Equals(Diffuse other)
         {
             return Comparer.Equals(this, other);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Diffuse diffuse && Equals(diffuse);
+        }
+
+        public static bool operator ==(Diffuse left, Diffuse right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(Diffuse left, Diffuse right)
+        {
+            return !(left == right);
         }
     }
 }

@@ -4,8 +4,13 @@ using Equ;
 
 namespace Dom.Raytrace
 {
-    public struct Pixel : IEquatable<Pixel>
+    public readonly struct Pixel : IEquatable<Pixel>
     {
+        public override int GetHashCode()
+        {
+            return Comparer.GetHashCode(this);
+        }
+
         public Pixel(int r, int g, int b)
         {
             R = r < 0 ? 0 : r;
@@ -33,6 +38,21 @@ namespace Dom.Raytrace
         public bool Equals(Pixel other)
         {
             return Comparer.Equals(this, other);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Pixel pixel && Equals(pixel);
+        }
+
+        public static bool operator ==(Pixel left, Pixel right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(Pixel left, Pixel right)
+        {
+            return !(left == right);
         }
     }
 }

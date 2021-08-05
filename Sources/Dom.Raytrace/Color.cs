@@ -4,8 +4,13 @@ using Equ;
 
 namespace Dom.Raytrace
 {
-    public struct Color : IEquatable<Color>
+    public readonly struct Color : IEquatable<Color>
     {
+        public override int GetHashCode()
+        {
+            return Comparer.GetHashCode(this);
+        }
+
         public Color(Vector3 color)
         {
             Value = color;
@@ -19,6 +24,21 @@ namespace Dom.Raytrace
         public bool Equals(Color other)
         {
             return Comparer.Equals(this, other);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Color color && Equals(color);
+        }
+
+        public static bool operator ==(Color left, Color right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(Color left, Color right)
+        {
+            return !(left == right);
         }
     }
 }

@@ -1,12 +1,12 @@
-﻿namespace App.Engine
+﻿using System;
+
+namespace App.Engine
 {
     public sealed class EntityIdFactory : IEntityIdFactory
     {
-        private long _idCount;
-
         public EntityId Create()
         {
-            return new(++_idCount);
+            return new(Guid.NewGuid());
         }
     }
 }
