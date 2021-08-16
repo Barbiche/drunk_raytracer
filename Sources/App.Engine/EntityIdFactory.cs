@@ -6,7 +6,7 @@ namespace App.Engine
     {
         public EntityId Create()
         {
-            return new(Guid.NewGuid());
+            return new EntityId(Guid.NewGuid());
         }
     }
 }

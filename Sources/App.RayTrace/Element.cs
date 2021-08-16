@@ -3,6 +3,7 @@ using App.Engine;
 using App.Hitables;
 using App.Materials;
 using App.Positionables;
+using EnsureThat;
 
 namespace App.RayTrace
 {
@@ -10,6 +11,10 @@ namespace App.RayTrace
     {
         public Element(EntityId id, IHitable hitable, IScatterable scatterable, IPositionable positionable)
         {
+            EnsureArg.IsNotNull(hitable, nameof(hitable));
+            EnsureArg.IsNotNull(scatterable, nameof(scatterable));
+            EnsureArg.IsNotNull(positionable, nameof(positionable));
+
             Id           = id;
             Hitable      = hitable;
             Scatterable  = scatterable;

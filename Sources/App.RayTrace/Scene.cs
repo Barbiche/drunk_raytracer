@@ -11,7 +11,7 @@ using Fou.Utils;
 
 namespace App.RayTrace
 {
-    public sealed class Scene : ISceneAccessor, IEntityHitable
+    public sealed class Scene : IEntityHitable
     {
         private readonly IEntityHitable                       _hitableStructure;
         private readonly IDictionary<EntityId, IPositionable> _positionables;
@@ -38,11 +38,11 @@ namespace App.RayTrace
         public IReadOnlyDictionary<EntityId, IScatterable> Scatterables =>
             new ReadOnlyDictionary<EntityId, IScatterable>(_scatterables);
 
+        public Vector3 BackgroundColor { get; }
+
         public Option<EntityRayHitpoint> TryHit(Ray ray, RayParameter bottomBoundary, RayParameter topBoundary)
         {
             return _hitableStructure.TryHit(ray, bottomBoundary, topBoundary);
         }
-
-        public Vector3 BackgroundColor { get; }
     }
 }

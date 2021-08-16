@@ -18,4 +18,8 @@
     <ProjectReference Include="..\Dom.Raytrace\Dom.Raytrace.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DataStructure" />
+  </ItemGroup>
+
 </Project>

@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using App.Engine;
 using App.Hitables;
+using App.Hitables.Computers;
 using App.Materials;
 using App.Positionables;
+using Enumerable = App.Hitables.Enumerable;
 
 namespace App.RayTrace
 {
@@ -24,7 +27,17 @@ namespace App.RayTrace
 
         public Scene Build()
         {
-            return new(new Enumerable(_hitables), _positionables, _scatterables, _background);
+            // split along X
+            var elementsByX = _hitables.OrderBy(pair => _positionables[pair.Key].Translation.X)
+                .ToDictionary(pair => pair.Key, pair => pair.Value);
+
+            var left  = new Dictionary<EntityId, IHitable>(elementsByX.Take(elementsByX.Count / 2));
+            var right = new Dictionary<EntityId, IHitable>(elementsByX.Skip(elementsByX.Count / 2));
+
+            return new Scene(new BoundingVolumeHierarchyNode(new Enumerable(left), new Enumerable(right),
+                                                             new BoundsComputer(),
+                                                             new HitableBoundsComputer()),
+                             _positionables, _scatterables, _background);
         }
 
         public ISceneBuilder AddElement(Element element)

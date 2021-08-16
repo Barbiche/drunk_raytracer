@@ -1,6 +1,7 @@
 ﻿using App.Hitables.Computers;
 using Dom.Raytrace;
 using Dom.Shapes;
+using EnsureThat;
 using Fou.Utils;
 
 namespace App.Hitables
@@ -16,6 +17,11 @@ namespace App.Hitables
                                            IBoundsComputer        boundsComputer,
                                            IHitableBoundsComputer hitableBoundsComputer)
         {
+            EnsureArg.IsNotNull(left, nameof(left));
+            EnsureArg.IsNotNull(right, nameof(right));
+            EnsureArg.IsNotNull(boundsComputer, nameof(boundsComputer));
+            EnsureArg.IsNotNull(hitableBoundsComputer, nameof(hitableBoundsComputer));
+            
             Left                   = left;
             Right                  = right;
             _boundsComputer        = boundsComputer;
