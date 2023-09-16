@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace PpmVisualizer
+namespace Pre.PpmVisualizer
 {
     /// <summary>
     ///     Interaction logic for App.xaml
